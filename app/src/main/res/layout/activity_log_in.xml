@@ -54,14 +54,17 @@
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
         android:text="Login"
         android:textColor="@color/white"
-        android:fontFamily="cursive" />
+        android:fontFamily="cursive"
+        android:backgroundTint="#0f570f"
+        android:textSize="15sp"
+        android:alpha="0.9"/>
 
     <TextView
         android:id="@+id/newUserText"
@@ -84,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_BottomOf="parent"
-        app:srcCompat="@drawable/check" />
+        app:srcCompat="@drawable/checkIcon" />
 
     <TextView
         android:id="@+id/checkItText"
