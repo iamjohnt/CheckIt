@@ -86,8 +86,7 @@
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_BottomOf="parent"
-        app:srcCompat="@drawable/checkIcon" />
+        app:srcCompat="@drawable/check_icon" />
 
     <TextView
         android:id="@+id/checkItText"
