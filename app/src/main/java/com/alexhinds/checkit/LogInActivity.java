@@ -1,12 +1,13 @@
 package com.alexhinds.checkit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -14,6 +15,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText loginUsername;
     private EditText loginPassword;
     private Button loginButton;
+    private TextView notRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +26,25 @@ public class LogInActivity extends AppCompatActivity {
         loginUsername = (EditText) findViewById(R.id.loginUsername);
         loginPassword = (EditText) findViewById(R.id.loginPassword);
         loginButton = (Button) findViewById(R.id.loginButton);
-
+        notRegistered = (TextView) findViewById(R.id.newUserText);
         // Login Button OnClick
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 attemptLogin(loginUsername.getText().toString(), loginPassword.getText().toString());
             }
+
         });
+        notRegistered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LogInActivity.this, RegisterActivity.class));
+                finish();
+            }
+        });
+
     }
+
 
     // Login Function
     private void attemptLogin(String loginUsername, String loginPassword) {
