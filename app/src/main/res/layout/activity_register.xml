@@ -7,40 +7,141 @@
     android:background="@color/black"
     tools:context=".RegisterActivity">
 
+
     <TextView
         android:id="@+id/registerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="78dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="cursive"
-        android:text="Register"
+        android:layout_width="155dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="342dp"
+        android:fontFamily="@font/courgette_regular"
+        android:text="@string/register"
         android:textColor="@color/white"
-        android:textSize="50sp"
+        android:textSize="37sp"
+        app:layout_constraintBottom_toTopOf="@+id/check_double_solid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.367"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="78dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/register_user_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginHorizontal="25dp"
+        android:background="@drawable/background1"
+        android:hint="@string/username"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:theme="@style/hint_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerTitle"
-        android:layout_marginTop="160dp"
-        android:layout_marginHorizontal="25dp"
-        android:background="@drawable/background1"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.424" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginHorizontal="25dp"
+        android:autofillHints=""
+        android:background="@drawable/background1"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:theme="@style/hint_text"
+        app:layout_constraintBottom_toTopOf="@+id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="25dp"
-        android:background="@drawable/background1" />
+        app:layout_constraintTop_toBottomOf="@+id/register_user_name"
+        app:layout_constraintVertical_bias="0.395" />
+
+    <ImageView
+        android:id="@+id/tasks_solid"
+        android:layout_width="277.49dp"
+        android:layout_height="234.15dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginLeft="204dp"
+        android:layout_marginBottom="500dp"
+        android:alpha="0.2"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_tasks_solid" />
+
+    <ImageView
+        android:id="@+id/check_double_solid"
+        android:layout_width="409dp"
+        android:layout_height="256dp"
+        android:alpha="0.2"
+        android:contentDescription="@string/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907"
+        app:srcCompat="@drawable/ic_check_double_solid" />
+
+    <TextView
+        android:id="@+id/already_registered"
+        android:layout_width="124dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="142dp"
+        android:layout_marginLeft="142dp"
+        android:layout_marginEnd="143dp"
+        android:layout_marginRight="143dp"
+
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/courgette_regular"
+        android:text="@string/already_registered"
+        android:textColor="@color/green_text"
+        app:layout_constraintBottom_toBottomOf="@+id/check_double_solid"
+        app:layout_constraintEnd_toEndOf="@+id/check_double_solid"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/check_double_solid"
+        app:layout_constraintTop_toBottomOf="@+id/register_button"
+        app:layout_constraintVertical_bias="0.258" />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="121dp"
+        android:layout_height="112dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/already_registered"
+        app:layout_constraintVertical_bias="0.203"
+        app:srcCompat="@drawable/check_icon" />
+
+    <TextView
+        android:id="@+id/check_it_text"
+        style="@style/checkit_text"
+        android:layout_width="154dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/check"
+        app:layout_constraintTop_toBottomOf="@+id/already_registered"
+        app:layout_constraintVertical_bias="0.594" />
+
+    <Button
+        android:id="@+id/register_button"
+        style="@style/grad_shad_button"
+        android:layout_width="209dp"
+        android:layout_height="50dp"
+        android:text="@string/register"
+        app:backgroundTintMode="multiply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/check_double_solid"
+        app:layout_constraintVertical_bias="0.136" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
