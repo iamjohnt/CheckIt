@@ -8,4 +8,6 @@
     <string name="password">Password</string>
     <string name="logo">Logo</string>
     <string name="background">background</string>
+    <string name="login">Login</string>
+    <string name="new_user">New User?</string>
 </resources>
