@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "45462866594",
+    "firebase_url": "https://checkit-91b85-default-rtdb.firebaseio.com",
+    "project_id": "checkit-91b85",
+    "storage_bucket": "checkit-91b85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45462866594:android:903760c496134db996e5fb",
+        "android_client_info": {
+          "package_name": "com.alexhinds.checkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45462866594-9oupjr9bsos2l2g8q17bnnkqtmul5o1t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alexhinds.checkit",
+            "certificate_hash": "e96ccee861d0113807575ff12290a8f8a74b0dd5"
+          }
+        },
+        {
+          "client_id": "45462866594-9ic2p3tf34doud3lp2rlslfd5icb4ine.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFtcZtvUl5kDIa9RUaiy-DRwBURHEOiWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45462866594-9ic2p3tf34doud3lp2rlslfd5icb4ine.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
