@@ -38,5 +38,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // registerButton onClick event
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // send data to database
+            }
+        });
     }
 }
