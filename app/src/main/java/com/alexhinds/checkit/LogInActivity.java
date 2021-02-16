@@ -23,10 +23,10 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         // Get Resources
-        loginUsername = (EditText) findViewById(R.id.loginUsername);
-        loginPassword = (EditText) findViewById(R.id.loginPassword);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        notRegistered = (TextView) findViewById(R.id.newUserText);
+        loginUsername = (EditText) findViewById(R.id.login_user_name);
+        loginPassword = (EditText) findViewById(R.id.login_password);
+        loginButton = (Button) findViewById(R.id.login_button);
+        notRegistered = (TextView) findViewById(R.id.new_user);
         // Login Button OnClick
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
