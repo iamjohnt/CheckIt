@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CheckIt</string>
+    <string name="register">Register</string>
+    <string name="checkit">CheckIt</string>
+    <string name="todo">TODO</string>
+    <string name="already_registered">Already registered?</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="logo">Logo</string>
+    <string name="background">background</string>
+    <string name="login">Login</string>
+    <string name="new_user">New User?</string>
 </resources>

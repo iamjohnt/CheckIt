@@ -4,6 +4,144 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".LogInActivity">
+
+
+    <TextView
+        android:id="@+id/loginTitle"
+        android:layout_width="155dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="342dp"
+        android:fontFamily="@font/courgette_regular"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textSize="37sp"
+        app:layout_constraintBottom_toTopOf="@+id/check_double_solid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/login_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="25dp"
+        android:background="@drawable/background1"
+        android:hint="@string/username"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:theme="@style/hint_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.424" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="25dp"
+        android:autofillHints=""
+        android:background="@drawable/background1"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:theme="@style/hint_text"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_user_name"
+        app:layout_constraintVertical_bias="0.395" />
+
+    <ImageView
+        android:id="@+id/tasks_solid"
+        android:layout_width="277.49dp"
+        android:layout_height="234.15dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginLeft="204dp"
+        android:layout_marginBottom="500dp"
+        android:alpha="0.2"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_tasks_solid" />
+
+    <ImageView
+        android:id="@+id/check_double_solid"
+        android:layout_width="409dp"
+        android:layout_height="256dp"
+        android:alpha="0.2"
+        android:contentDescription="@string/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907"
+        app:srcCompat="@drawable/ic_check_double_solid" />
+
+    <TextView
+        android:id="@+id/new_user"
+        android:layout_width="124dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="142dp"
+        android:layout_marginLeft="142dp"
+        android:layout_marginEnd="143dp"
+        android:layout_marginRight="143dp"
+
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/courgette_regular"
+        android:text="@string/new_user"
+        android:textColor="@color/green_text"
+        app:layout_constraintBottom_toBottomOf="@+id/check_double_solid"
+        app:layout_constraintEnd_toEndOf="@+id/check_double_solid"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/check_double_solid"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        app:layout_constraintVertical_bias="0.258" />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="121dp"
+        android:layout_height="112dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_user"
+        app:layout_constraintVertical_bias="0.203"
+        app:srcCompat="@drawable/check_icon" />
+
+    <TextView
+        android:id="@+id/check_it_text"
+        style="@style/checkit_text"
+        android:layout_width="154dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/check"
+        app:layout_constraintTop_toBottomOf="@+id/new_user"
+        app:layout_constraintVertical_bias="0.594" />
+
+    <Button
+        android:id="@+id/login_button"
+        style="@style/grad_shad_button"
+        android:layout_width="209dp"
+        android:layout_height="50dp"
+        android:text="@string/login"
+        app:backgroundTintMode="multiply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/check_double_solid"
+        app:layout_constraintVertical_bias="0.136" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
