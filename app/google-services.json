@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
+
           "client_id": "45462866594-7hi0v5uv0r72h2indvnkss4uj0mjpf14.apps.googleusercontent.com",
-=======
+
           "client_id": "45462866594-9oupjr9bsos2l2g8q17bnnkqtmul5o1t.apps.googleusercontent.com",
->>>>>>> 7243384b05c9b1c60e571e579bd87a47aed38514
+
           "client_type": 1,
           "android_info": {
             "package_name": "com.alexhinds.checkit",
