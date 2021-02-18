@@ -11,8 +11,8 @@
         android:theme="@style/Theme.CheckIt">
         <activity android:name=".CreateActivity"></activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LogInActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
