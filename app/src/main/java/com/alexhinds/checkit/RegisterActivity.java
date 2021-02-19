@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -95,7 +96,22 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         // write object to database - it handles conversion to JSON
-        mDatabase.child("test").child("users").child(UUID.randomUUID().toString()).setValue(user);  // UUID just a placeholder for the generated UID for now
-        Log.d(TAG, "createAccount: successful");
+        mDatabase.child("test").child("users").child(UUID.randomUUID().toString()).setValue(user)
+
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "createAccount::onSuccess: Account Created");
+                }
+                })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "createAccount::onFailure: Account Creation Failed");
+                }
+             });
+
+        ;  // UUID just a placeholder for the generated UID for now
+
     }
 }
