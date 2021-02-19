@@ -29,6 +29,7 @@ import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final String TAG = "REGISTER_ACTIVITY"; // for logging
     // Define Resources
     private EditText registerUserName;
     private EditText registerPassword;
@@ -63,27 +64,38 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String username = registerUserName.getText().toString();
-               //String password = registerPassword.getText().toString();
+                // get registration info in string format
+                String username = registerUserName.getText().toString();
+                String password = registerPassword.getText().toString();
 
-               //mDatabase.child("test").child("users").child(UUID.randomUUID()).setValue()
+                // create account with User object to store associated info
+                User user = new User(username, password);
+                createAccount(user);
 
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                mDatabase.child("test").child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebase", "Error getting data", task.getException());
-                        }
-                        else {
-                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                        }
-                    }
-                });
+                // continue to login activity
+                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                finish();
 
             }
 
 
         });
+    }
+
+
+    private void createAccount(User user) {
+        /*
+         *     Eventually will use Firebase Authentication for login. It generates a UID, which we can use
+         *     to link the authenticated user to the user in the database
+         *
+         */
+
+        // TODO implement registration with Firebase Authentication and link with UID
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        // write object to database - it handles conversion to JSON
+        mDatabase.child("test").child("users").child(UUID.randomUUID().toString()).setValue(user);  // UUID just a placeholder for the generated UID for now
+        Log.d(TAG, "createAccount: successful");
     }
 }
