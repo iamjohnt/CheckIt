@@ -7,7 +7,6 @@
     android:background="@color/black"
     tools:context=".RegisterActivity">
 
-
     <TextView
         android:id="@+id/registerTitle"
         android:layout_width="155dp"
@@ -25,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!-- android:theme="@style/hint_text causes errors with validation, need to apply directly -->
     <EditText
         android:id="@+id/register_user_name"
         android:layout_width="match_parent"
@@ -34,13 +34,13 @@
         android:hint="@string/username"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:theme="@style/hint_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.424" />
 
+    <!-- android:theme="@style/hint_text causes errors with validation, need to apply directly -->
     <EditText
         android:id="@+id/register_password"
         android:layout_width="match_parent"
@@ -50,7 +50,6 @@
         android:background="@drawable/background1"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:theme="@style/hint_text"
         app:layout_constraintBottom_toTopOf="@+id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
