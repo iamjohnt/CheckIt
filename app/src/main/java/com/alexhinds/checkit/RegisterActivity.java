@@ -69,6 +69,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = registerUserName.getText().toString();
                 String password = registerPassword.getText().toString();
 
+                // TODO validate
+
                 // create account with User object to store associated info
                 User user = new User(username, password);
                 createAccount(user);
@@ -96,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         // write object to database - it handles conversion to JSON
-        mDatabase.child("test").child("users").child(UUID.randomUUID().toString()).setValue(user)
+        mDatabase.child("test").child("users").child(UUID.randomUUID().toString()).setValue(user) // UUID just a placeholder for the generated UID for now
 
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -110,8 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d(TAG, "createAccount::onFailure: Account Creation Failed");
                 }
              });
-
-        ;  // UUID just a placeholder for the generated UID for now
 
     }
 }
