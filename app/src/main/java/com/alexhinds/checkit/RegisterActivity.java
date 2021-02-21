@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView alreadyRegistered;
 
      private DatabaseReference mDatabase;
+     private AwesomeValidation awesomeValidation;
 
 
     @Override
@@ -51,6 +54,13 @@ public class RegisterActivity extends AppCompatActivity {
         registerPassword = (EditText) findViewById(R.id.register_password);
         registerButton = (Button) findViewById(R.id.register_button);
         alreadyRegistered = (TextView) findViewById(R.id.already_registered);
+
+        //
+        final AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.COLORATION);
+        String regexPassword = "[a-zA-Z0-9]+";
+        awesomeValidation.addValidation(registerUserName, regexPassword, "Enter valid email address (alphanumeric only)");
+        //mAwesomeValidation.addValidation(loginEmail, Patterns.EMAIL_ADDRESS, "Enter valid email address");
+        awesomeValidation.addValidation(registerPassword, regexPassword, "Enter valid password (alphanumeric only)");
 
         //alreadyRegistered Onclick
         alreadyRegistered.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +79,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = registerUserName.getText().toString();
                 String password = registerPassword.getText().toString();
 
-                // TODO validate
-
                 // create account with User object to store associated info
-                User user = new User(username, password);
-                createAccount(user);
+                if (awesomeValidation.validate()) {
+                    User user = new User(username, password);
+                    createAccount(user);
+                    // continue to login activity
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    finish();
 
-                // continue to login activity
-                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-                finish();
+                }
 
             }
 
