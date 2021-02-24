@@ -58,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //
         final AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.COLORATION);
-        String regexUserName = "^[a-zA-Z0-9]{2,20}";
+        String regexUserName = "^[a-zA-Z0-9]{2,20}$";
         String regexPassword =  "^[a-zA-Z0-9]{6,}$";
         awesomeValidation.addValidation(registerUserName, regexUserName, "Enter valid username (alphanumeric only, req length 2-20");
         awesomeValidation.addValidation(registerUserEmail, Patterns.EMAIL_ADDRESS, "Enter valid email address");
@@ -113,20 +113,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         final String USER_PROFILE_TAG = "USER_PROFILE_UPDATE";
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+                .addOnCompleteListener(RegisterActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(userName).build();
+                        Log.d(TAG, "createUserWithEmail:success ");
 
-                            Log.d(TAG, "createUserWithEmail:success");
-
-                            Toast.makeText(getApplicationContext(), "Account Created Successfully...",
-                                    Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "Account Created Successfully...",
+                                Toast.LENGTH_SHORT);
 
 
 //                        currUser.updateProfile(profileUpdates)
@@ -146,34 +141,33 @@ public class RegisterActivity extends AppCompatActivity {
 //                        });
 //
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Account Creation Failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(getApplicationContext(), "Account Creation Failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 //
 //                        // TODO implement registration with Firebase Authentication and link with UID
-                        database = FirebaseDatabase.getInstance().getReference();
+                    database = FirebaseDatabase.getInstance().getReference();
 
-                        User user = new User(userName, userPassword);
-                        // write object to database, using UID as the unique/primary key - it handles conversion to JSON
-                        database.child("test").child("users").child(auth.getCurrentUser().getUid()).setValue(user)
+                    User user = new User(userName, userPassword);
+                    // write object to database, using UID as the unique/primary key - it handles conversion to JSON
+                    database.child("test").child("users").child(auth.getCurrentUser().getUid()).setValue(user)
 
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "createAccount::onSuccess: Account Created");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG, "createAccount::onFailure: Account Creation Failed");
-                                    }
-                                });
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "createAccount::onSuccess: Account Created");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "createAccount::onFailure: Account Creation Failed");
+                                }
+                            });
 
-                    }
                 });
     }
 
