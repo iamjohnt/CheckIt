@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         mainActivityUserName = findViewById(R.id.displayName);
         String displayName = auth.getCurrentUser().getDisplayName();
         Log.d(TAG, "onCreate: displayName = " + displayName);
-        mainActivityUserName.setText(displayName);
+        mainActivityUserName.setText("Welcome "+displayName + ",");
     }
 
 
