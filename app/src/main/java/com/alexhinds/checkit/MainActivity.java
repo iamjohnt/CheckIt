@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import android.util.Log;
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,19 +15,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 /*
 * TODO: create a custom toolbar
 * */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private final String TAG = "MAIN_ACTIVITY";
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // firebase authentication
+        auth = FirebaseAuth.getInstance();
+        String displayName = auth.getCurrentUser().getDisplayName();
+        Log.d(TAG, "onCreate: displayName = " + displayName);
 
         // set the toolbar as the new actionbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -74,5 +86,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+
+
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        auth.signOut();
+    }
+
 }
