@@ -117,6 +117,8 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(userName).build();
 
                         Log.d(TAG, "createUserWithEmail:success ");
 
@@ -124,22 +126,22 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT);
 
 
-//                        currUser.updateProfile(profileUpdates)
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if (task.isSuccessful()) {
-//                                            Log.d(USER_PROFILE_TAG, "Name updated to \'"
-//                                                    + userName
-//                                                    + "\'.");
-//                                            Toast.makeText(getApplicationContext(),
-//                                                            "Name updated to " + userName,
-//                                                            Toast.LENGTH_LONG).setView(findViewById(R.id.regToastTextView));
-//                                        }
-//
-//                                    }
-//                        });
-//
+                        currUser.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(USER_PROFILE_TAG, "Name updated to \'"
+                                                    + userName
+                                                    + "\'.");
+                                            Toast.makeText(getApplicationContext(),
+                                                            "Name updated to " + userName,
+                                                            Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                        });
+
 
                     } else {
                         // If sign in fails, display a message to the user.
