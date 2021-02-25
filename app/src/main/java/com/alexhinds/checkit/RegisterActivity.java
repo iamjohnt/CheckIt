@@ -100,9 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
     /** createAccount                   creates Firebase Auth User and user entry
      *                                  in the database
      *
-     * @param userEmail
-     * @param username
-     * @param password
+     * @param userEmail email used to create account
+     * @param username username used for displayName in the app
+     * @param password user account password
      */
 
     private void createAccount(String userEmail, String username, String password) {
@@ -158,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // set up entry for user in db
                     User user = new User(userName, userPassword);
                     // write object to database, using UID from signing up as the unique/primary key - it handles conversion to JSON
-                    database.child(currUser.getUID()).setValue(user)
+                    database.child(auth.getCurrentUser().getUid()).setValue(user)
 
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
