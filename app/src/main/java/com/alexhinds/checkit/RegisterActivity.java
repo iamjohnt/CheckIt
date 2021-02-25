@@ -79,12 +79,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // get registration info in string format
                 String userEmail = registerUserEmail.getText().toString();
-                String username = registerUserName.getText().toString();
+                String userName = registerUserName.getText().toString();
                 String password = registerPassword.getText().toString();
 
                 // if valid input, create account with User object to store associated info
                 if (awesomeValidation.validate()) {
-                    createAccount(userEmail, username, password);
+                    createAccount(userEmail, userName, password);
                     // continue to login activity
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                     finish();
@@ -97,27 +97,30 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    /** createAccount                   creates Firebase Auth User and user entry
+     *                                  in the database
+     *
+     * @param userEmail
+     * @param username
+     * @param password
+     */
 
     private void createAccount(String userEmail, String username, String password) {
-        /*
-         *     Eventually will use Firebase Authentication for login. It generates a UID, which we can use
-         *     to link the authenticated user to the user in the database
-         *
-         */
-
 
         final String email = userEmail;
         final String userName = username;
         final String userPassword = password;
-        String userId;
+
 
         final String USER_PROFILE_TAG = "USER_PROFILE_UPDATE";
+
+        // sign up
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(RegisterActivity.this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                       FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser(); // get the newly created user
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder() // create profile update to set username as display name
                                 .setDisplayName(userName).build();
 
                         Log.d(TAG, "createUserWithEmail:success ");
@@ -126,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT);
 
 
-                        currUser.updateProfile(profileUpdates)
+                        currUser.updateProfile(profileUpdates) // update profile
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -144,18 +147,18 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                     } else {
-                        // If sign in fails, display a message to the user.
+                        // If sign up fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "Account Creation Failed.",
+                        Toast.makeText(getApplicationContext(), "Account Creation Failed.\n" + task.getException() ,
                                 Toast.LENGTH_SHORT).show();
                     }
-//
-//                        // TODO implement registration with Firebase Authentication and link with UID
-                    database = FirebaseDatabase.getInstance().getReference();
+                    database = FirebaseDatabase.getInstance().getReference("test/users"); // test db
 
+
+                    // set up entry for user in db
                     User user = new User(userName, userPassword);
-                    // write object to database, using UID as the unique/primary key - it handles conversion to JSON
-                    database.child("test").child("users").child(auth.getCurrentUser().getUid()).setValue(user)
+                    // write object to database, using UID from signing up as the unique/primary key - it handles conversion to JSON
+                    database.child(currUser.getUID()).setValue(user)
 
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
