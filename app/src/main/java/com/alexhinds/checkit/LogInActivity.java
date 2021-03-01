@@ -31,17 +31,19 @@ public class LogInActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptLogin(loginUsername.getText().toString(), loginPassword.getText().toString());
+                startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                finish();
+//                attemptLogin(loginUsername.getText().toString(), loginPassword.getText().toString());
             }
 
         });
-        notRegistered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LogInActivity.this, RegisterActivity.class));
-                finish();
-            }
-        });
+//        notRegistered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(LogInActivity.this, RegisterActivity.class));
+//                finish();
+//            }
+//        });
 
     }
 
