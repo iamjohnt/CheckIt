@@ -1,12 +1,14 @@
 package com.alexhinds.checkit;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,10 +67,24 @@ public class CreateFragment extends Fragment {
                             System.out.println("Time Specific");
 
                             String date = editText_date.getText().toString();
-                            System.out.println("Date: " + date);
+                            if (TextUtils.isEmpty(date)) {
+                                Toast.makeText(getActivity(),
+                                        "Must include date!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                System.out.println("Date: " + date);
+                            }
 
                             String time = editText_time.getText().toString();
-                            System.out.println("Time: " + time);
+                            if (TextUtils.isEmpty(time)) {
+                                Toast.makeText(getActivity(),
+                                        "Must include time!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                System.out.println("Time: " + time);
+                            }
 
                         }
 
