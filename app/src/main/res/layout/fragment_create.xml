@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="20dp">
+
+    <TextView
+        android:id="@+id/textview_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_white_bottom"
+        android:fontFamily="@font/courgette"
+        android:gravity="center_horizontal"
+        android:text="Welcome"
+        android:textColor="@android:color/white"
+        android:textSize="36dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@drawable/gradient_background"
+            android:padding="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageview_date_icon"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/ic_plus_square_regular"
+                    app:layout_constraintBottom_toTopOf="@id/button_create"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/textview_date" />
+
+                <TextView
+                    android:id="@+id/textview_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/courgette"
+                    android:text="Tuesday,\nFebruary 2, 2021"
+                    android:textColor="@android:color/white"
+                    android:textSize="24dp"
+                    app:layout_constraintLeft_toRightOf="@+id/imageview_date_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/GridLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal"
+                android:rowCount="5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:context=".GridXMLActivity">
+
+                <TextView
+                    android:id="@+id/category"
+                    android:layout_gravity="left"
+                    android:fontFamily="@font/courgette"
+                    android:text="Category"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+                <EditText
+
+                    android:id="@+id/category_button"
+                    android:layout_width="100dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/border_gray_foursides"
+                    android:fontFamily="@font/courgette"
+                    android:hint="Name"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/dark_gray" />
+
+                <TextView
+                    android:id="@+id/button_share_with"
+                    android:layout_gravity="left"
+                    android:fontFamily="@font/courgette"
+                    android:text="Share With"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+                <EditText
+                    android:id="@+id/editText_share_with"
+                    android:layout_width="100dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/border_gray_foursides"
+                    android:fontFamily="@font/courgette"
+                    android:hint="Private"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/dark_gray" />
+
+                <TextView
+                    android:id="@+id/textview_time_specific"
+                    android:layout_gravity="left"
+                    android:fontFamily="@font/courgette"
+                    android:text="Time Specific"
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_cheese"
+                    android:layout_width="24dp"
+                    android:layout_height="23dp"
+                    android:layout_gravity="right"
+                    android:buttonTint="@color/green_text"
+                    android:checked="true" />
+
+
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:columnCount="2"
+                android:paddingHorizontal="50dp"
+                android:rowCount="2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GridLayout1">
+
+                <TextView
+                    android:id="@+id/textview_date_label"
+                    android:layout_gravity="top"
+                    android:fontFamily="@font/courgette"
+                    android:text="Date"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/editText_date"
+                    android:layout_width="110dp"
+                    android:layout_gravity="right"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/courgette"
+                    android:hint="Private"
+                    android:paddingHorizontal="10dp"
+                    android:text="mm/dd/yyy"
+                    android:textColor="@color/dark_gray"
+                    android:textColorHint="@color/dark_gray"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/textview_time_label"
+                    android:layout_gravity="top"
+                    android:fontFamily="@font/courgette"
+                    android:text="Time"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/editText_time"
+                    android:layout_width="110dp"
+                    android:layout_gravity="right"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/courgette"
+                    android:paddingHorizontal="10dp"
+                    android:text="00:00"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16dp" />
+            </GridLayout>
+
+
+            <Button
+                android:id="@+id/button_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/courgette"
+                android:text="Create a List"
+                android:textAllCaps="false"
+                android:textSize="36dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
