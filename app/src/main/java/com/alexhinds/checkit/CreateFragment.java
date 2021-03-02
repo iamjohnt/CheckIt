@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +28,7 @@ public class CreateFragment extends Fragment {
     private EditText editText_date;
     private EditText editText_time;
     private Button button_create;
+    private DatabaseReference mDatabase;
 
     @Nullable
     @Override
@@ -40,10 +44,12 @@ public class CreateFragment extends Fragment {
         editText_date = (EditText) view.findViewById(R.id.editText_date);
         editText_time = (EditText) view.findViewById(R.id.editText_time);
         button_create = (Button) view.findViewById(R.id.button_create);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-
+        // TODO: Error Handling (Verify Inputs)
         // TODO: Populate Database
+        // TODO: Navigate to CurrentListFragment if list created successfully
         button_create.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -63,14 +69,12 @@ public class CreateFragment extends Fragment {
 
                             String time = editText_time.getText().toString();
                             System.out.println("Time: " + time);
-                            
-                        }
 
+                        }
 
                     }
                 }
         );
-
 
         // Return View
        return view;
