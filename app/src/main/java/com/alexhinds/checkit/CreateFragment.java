@@ -13,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -58,6 +62,12 @@ public class CreateFragment extends Fragment {
 
                         if (checkBox_time_specific.isChecked()) {
                             System.out.println("Time Specific");
+
+                            String date = editText_date.getText().toString();
+                            System.out.println("Date: " + date);
+
+                            String time = editText_time.getText().toString();
+                            System.out.println("Time: " + time);
 
                         }
 
