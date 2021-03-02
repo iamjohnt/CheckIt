@@ -171,9 +171,9 @@
                     android:layout_gravity="right"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/courgette"
-                    android:hint="Private"
                     android:paddingHorizontal="10dp"
-                    android:text="mm/dd/yyy"
+                    android:hint="mm/dd/yyyy"
+                    android:inputType="date"
                     android:textColor="@color/dark_gray"
                     android:textColorHint="@color/dark_gray"
                     android:textSize="16dp" />
@@ -193,7 +193,8 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/courgette"
                     android:paddingHorizontal="10dp"
-                    android:text="00:00"
+                    android:hint="00:00"
+                    android:inputType="time"
                     android:textColor="@color/dark_gray"
                     android:textSize="16dp" />
             </GridLayout>
