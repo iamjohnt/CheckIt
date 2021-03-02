@@ -104,7 +104,7 @@
 
                 <EditText
 
-                    android:id="@+id/category_button"
+                    android:id="@+id/editText_category"
                     android:layout_width="100dp"
                     android:layout_gravity="right"
                     android:background="@drawable/border_gray_foursides"
@@ -142,7 +142,7 @@
                     android:textSize="24sp" />
 
                 <CheckBox
-                    android:id="@+id/checkbox_cheese"
+                    android:id="@+id/checkbox_time_specific"
                     android:layout_width="24dp"
                     android:layout_height="23dp"
                     android:layout_gravity="right"
