@@ -39,11 +39,24 @@ public class CreateFragment extends Fragment {
 
 
 
-        // TODO
+        // TODO: Populate Database
         button_create.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
                         System.out.println("Create Button Clicked");
+
+                        String category = editText_category.getText().toString();
+                        System.out.println("Category: " + category);
+
+                        String shareWith = editText_share_with.getText().toString();
+                        System.out.println("Share With: " + shareWith);
+
+                        if (checkBox_time_specific.isChecked()) {
+                            System.out.println("Time Specific");
+
+                        }
+
+
                     }
                 }
         );
