@@ -43,6 +43,17 @@ public class CreateFragment extends Fragment {
         button_create = (Button) view.findViewById(R.id.button_create);
 
 
+
+        // TODO
+        button_create.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        System.out.println("Create Button Clicked");
+                    }
+                }
+        );
+
+
         // Return View
        return view;
         auth = FirebaseAuth.getInstance();
