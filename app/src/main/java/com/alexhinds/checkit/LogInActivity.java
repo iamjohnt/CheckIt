@@ -121,6 +121,7 @@ public class LogInActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Log.d(TAG, "attemptLogin: Failed: " + e.getMessage());
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
