@@ -37,24 +37,6 @@ public class LogInActivity extends AppCompatActivity {
     private DatabaseReference database;
     private FirebaseAuth auth;
 
-    // Login Function
-    private void attemptLogin(String loginUserEmail, String loginPassword) {
-
-        database = FirebaseDatabase.getInstance().getReference();
-        auth = FirebaseAuth.getInstance();
-
-        auth.signInWithEmailAndPassword(loginUserEmail, loginPassword)
-                .addOnSuccessListener(authResult -> {
-                    Log.d(TAG, "attemptLogin: Successful");
-
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                })
-                .addOnFailureListener(e -> {
-                    Log.d(TAG, "attemptLogin: Failed: " + e.getMessage());
-                });
-        // TODO: connect to database & validate info
-    }
-
 
     // ANDROID LIFE CYCLE
     @Override
@@ -62,8 +44,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = auth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            auth.signOut();
-            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
         else if (currentUser == null) {
@@ -80,7 +61,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // Firebase Authentication Instance
         auth = FirebaseAuth.getInstance();
 
         // Get Resources
@@ -91,26 +72,26 @@ public class LogInActivity extends AppCompatActivity {
 
         // validation configuration
         final AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.COLORATION);
-        String regexPassword = "[a-zA-Z0-9]{6,}";
-
-
+        String regexPassword = "[a-zA-Z0-9]{6,20}";
 
         awesomeValidation.addValidation(loginUserEmail, Patterns.EMAIL_ADDRESS, "Enter a valid email address");
-
-        awesomeValidation.addValidation(loginPassword, regexPassword , "Enter valid password (alphanumeric only, length 6+)");
+        awesomeValidation.addValidation(loginPassword, regexPassword , "Enter valid password (alphanumeric only, length 6-20)");
 
 
         // Login Button OnClick
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // validate user login credentials and attempt log in, redirects to MainActivity if successful
                 if (awesomeValidation.validate()) {
                     attemptLogin(loginUserEmail.getText().toString(), loginPassword.getText().toString());
                 }
             }
 
         });
+
+
+        // RegisterActivity
 
         notRegistered.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +106,22 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //auth.signOut();
+    }
+
+    // Login Function
+    private void attemptLogin(String loginUserEmail, String loginPassword) {
+
+
+        auth.signInWithEmailAndPassword(loginUserEmail, loginPassword)
+                .addOnSuccessListener(authResult -> {
+                    Log.d(TAG, "attemptLogin: Successful");
+
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Log.d(TAG, "attemptLogin: Failed: " + e.getMessage());
+                });
     }
 
 }
