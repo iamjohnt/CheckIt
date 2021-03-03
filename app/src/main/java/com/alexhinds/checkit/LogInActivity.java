@@ -37,13 +37,13 @@ public class LogInActivity extends AppCompatActivity {
             }
 
         });
-//        notRegistered.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(LogInActivity.this, RegisterActivity.class));
-//                finish();
-//            }
-//        });
+        notRegistered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LogInActivity.this, RegisterActivity.class));
+                finish();
+            }
+        });
 
     }
 
