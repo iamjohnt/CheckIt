@@ -1,5 +1,7 @@
+
 package com.alexhinds.checkit;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -8,10 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +33,6 @@ public class LogInActivity extends AppCompatActivity {
     private EditText loginPassword;
     private Button loginButton;
     private TextView notRegistered;
-
-
-
 
     private AwesomeValidation awesomeValidation;
     private DatabaseReference database;
@@ -56,13 +57,16 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+
         // Firebase Authentication Instance
         auth = FirebaseAuth.getInstance();
+
 
         // Get Resources
         loginUserEmail = (EditText) findViewById(R.id.login_user_email);
@@ -76,6 +80,7 @@ public class LogInActivity extends AppCompatActivity {
 
         awesomeValidation.addValidation(loginUserEmail, Patterns.EMAIL_ADDRESS, "Enter a valid email address");
         awesomeValidation.addValidation(loginPassword, regexPassword , "Enter valid password (alphanumeric only, length 6-20)");
+
 
 
         // Login Button OnClick
@@ -92,7 +97,6 @@ public class LogInActivity extends AppCompatActivity {
 
 
         // RegisterActivity
-
         notRegistered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

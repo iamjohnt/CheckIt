@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import android.util.Log;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private final String TAG = "MAIN_ACTIVITY";
     private FirebaseAuth auth;
+
 
 
     @Override
