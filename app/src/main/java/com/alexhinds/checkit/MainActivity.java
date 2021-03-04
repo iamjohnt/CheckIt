@@ -3,6 +3,8 @@ package com.alexhinds.checkit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.util.Log;
@@ -35,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // firebase authentication
         auth = FirebaseAuth.getInstance();
-        String displayName = auth.getCurrentUser().getDisplayName();
-        Log.d(TAG, "onCreate: displayName = " + displayName);
 
         // set the toolbar as the new actionbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.menu_view);
+
+        // get the menu header, display Firebase User's display name
+        View menuHeader = navigationView.getHeaderView(0);
+        TextView username = menuHeader.findViewById(R.id.username);
+        username.setText(auth.getCurrentUser().getDisplayName());
+
         navigationView.setNavigationItemSelectedListener(this);
 
         // menu/hamburger icon at the top to control opening/closing of menu (in addition to click and drag)
@@ -79,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentListFragment()).commit();
                 break;
             case R.id.logout: // TODO: I may need to exit using authentication and ensuring that user can't use the back arrow after logging out (read about this)
+                auth.signOut();
                 startActivity(new Intent(MainActivity.this, LogInActivity.class));
                 finish();
                 Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();

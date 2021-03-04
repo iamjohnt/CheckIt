@@ -15,7 +15,7 @@
         android:background="@drawable/border_white_bottom"
         android:fontFamily="@font/courgette"
         android:gravity="center_horizontal"
-        android:text="Welcome"
+        android:text=""
         android:textColor="@android:color/white"
         android:textSize="36dp"
         app:layout_constraintLeft_toLeftOf="parent"
