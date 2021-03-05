@@ -12,4 +12,12 @@
     <string name="new_user">New User?</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="finish_by_default">Finish by: mm/dd/yyyy - 00:00</string>
+    <string name="category_name">Category Name</string>
+    <string name="header_date">Tuesday, February 2, 2021</string>
+    <string name="header_private_field">private</string>
+    <string name="welcome_username">Welcome Username</string>
+    <string name="create_a_list">Create a List</string>
+    <string name="_00_00">00:00</string>
+    <string name="add_new_item_to_list">Add new Item to List</string>
 </resources>
