@@ -1,10 +1,14 @@
 package com.alexhinds.checkit;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import android.util.Log;
@@ -79,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // switch between fragments (this will control which fragment is placed inside the fragment container (in the activity_main.xml
         switch  (item.getItemId()) {
             case R.id.create_list:
+                changeStatusBarColor("#000000");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
                 break;
             case R.id.Example1_list: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
+                changeStatusBarColor("#031006");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentListFragment()).commit();
                 break;
             case R.id.logout: // TODO: I may need to exit using authentication and ensuring that user can't use the back arrow after logging out (read about this)
@@ -93,9 +99,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
 
-
-
+    public void changeStatusBarColor(String color){
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.parseColor(color));
+        }
     }
 
 
