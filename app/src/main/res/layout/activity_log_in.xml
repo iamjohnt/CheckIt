@@ -33,7 +33,7 @@
         android:layout_marginHorizontal="25dp"
         android:background="@drawable/background1"
         android:fontFamily="@font/courgette_regular"
-        android:hint="@string/username"
+        android:hint="@string/useremail"
         android:importantForAutofill="no"
         android:inputType="text"
 
