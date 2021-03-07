@@ -14,7 +14,7 @@
         android:padding="25dp"
         android:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="25dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/date"
@@ -24,6 +24,6 @@
         android:paddingLeft="25dp"
         android:text="Date"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="25dp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

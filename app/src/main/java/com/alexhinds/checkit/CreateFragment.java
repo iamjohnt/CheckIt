@@ -79,13 +79,6 @@ public class CreateFragment extends Fragment {
 
         // Return View
        return view;
-        auth = FirebaseAuth.getInstance();
-        View createInflatedView =  inflater.inflate(R.layout.fragment_create, container, false);
 
-        // add username to welcome
-        TextView welcome = (TextView) createInflatedView.findViewById(R.id.textview_welcome);
-        welcome.setText("Welcome "+ auth.getCurrentUser().getDisplayName());
-
-        return createInflatedView;
     }
 }
