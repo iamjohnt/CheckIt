@@ -1,23 +1,26 @@
 package com.alexhinds.checkit;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import java.text.DateFormat;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class CreateFragment extends Fragment {
@@ -29,8 +32,8 @@ public class CreateFragment extends Fragment {
     private EditText editText_date;
     private EditText editText_time;
     private Button button_create;
+    private DatabaseReference databaseReference;
 
-    private FirebaseAuth auth;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class CreateFragment extends Fragment {
         // Get View
         View view = inflater.inflate(R.layout.fragment_create, container, false);
 
-       // Link Fields
+        // Link Fields
         editText_category = (EditText) view.findViewById(R.id.editText_category);
         editText_share_with = (EditText) view.findViewById(R.id.editText_share_with);
         checkBox_time_specific = (CheckBox) view.findViewById(R.id.checkbox_time_specific);
@@ -46,39 +49,92 @@ public class CreateFragment extends Fragment {
         editText_time = (EditText) view.findViewById(R.id.editText_time);
         button_create = (Button) view.findViewById(R.id.button_create);
 
-
-
-        // TODO: Populate Database
+        // TODO: Additional Error Handling (Verify Inputs, Address Duplicates)
         button_create.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        System.out.println("Create Button Clicked");
 
+                        // ################### CATEGORY ###################
                         String category = editText_category.getText().toString();
-                        System.out.println("Category: " + category);
-
-                        String shareWith = editText_share_with.getText().toString();
-                        System.out.println("Share With: " + shareWith);
-
-                        if (checkBox_time_specific.isChecked()) {
-                            System.out.println("Time Specific");
-
-                            String date = editText_date.getText().toString();
-                            System.out.println("Date: " + date);
-
-                            String time = editText_time.getText().toString();
-                            System.out.println("Time: " + time);
-
+                        if (TextUtils.isEmpty(category)) {
+                            Toast.makeText(getActivity(),
+                                    "Must include category!",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
+                        // ################### DATE CREATED ###################
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                        String dateCreated = formatter.format(date);
 
+                        // ################### SHARE WITH ###################
+                        //TODO: based on username? multiple inputs allowed? need to parse w/ delimiter?
+                        String shareWith = editText_share_with.getText().toString();
+                        boolean isShareable = true;
+                        if (TextUtils.isEmpty(shareWith)) {
+                            isShareable = false;
+                        }
+
+                        // ################### DEADLINE ###################
+                        boolean hasDeadline = false;
+                        String deadline = "";
+                        if (checkBox_time_specific.isChecked()) {
+                            hasDeadline = true;
+
+                            // ################### DEADLINE DATE ###################
+                            String deadlineDate = editText_date.getText().toString();
+                            if (TextUtils.isEmpty(deadlineDate)) {
+                                Toast.makeText(getActivity(),
+                                        "Must include date!",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
+                                deadline += deadlineDate;
+                            }
+
+                            // ################### DEADLINE TIME ###################
+                            String deadlineTime = editText_time.getText().toString();
+                            if (TextUtils.isEmpty(deadlineTime)) {
+                                Toast.makeText(getActivity(),
+                                        "Must include time!",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
+                                deadline = deadline + " " + deadlineTime;
+                            }
+                        }
+
+                        // ################### POPULATE DATABASE ###################
+                        // TODO: connect to owner (how to get current user ID?)
+                        databaseReference = FirebaseDatabase.getInstance().getReference("test").child("lists");
+                        List newList = new List(category, dateCreated, hasDeadline, deadline, isShareable, shareWith, "");
+                        databaseReference.child(category).setValue(newList);
+
+                        //TODO: handle sharing (how to get user IDs from shareWith string? use this to update listMembers)
+
+                        // Go to Current List Fragment
+                        goToCurrentListFragment();
                     }
                 }
         );
 
-
         // Return View
-       return view;
-
+        return view;
     }
+
+    private void clearAllLists() {
+        databaseReference.setValue(null);
+    }
+
+    private void goToCurrentListFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container,
+                        new CurrentListFragment()).commit();
+    }
+
 }
