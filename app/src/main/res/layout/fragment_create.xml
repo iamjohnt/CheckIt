@@ -10,17 +10,23 @@
 
     <TextView
         android:id="@+id/textview_welcome"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="77dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="59dp"
         android:background="@drawable/border_white_bottom"
         android:fontFamily="@font/courgette"
         android:gravity="center_horizontal"
-        android:text="Welcome"
+        android:text=""
         android:textColor="@android:color/white"
-        android:textSize="36dp"
+        android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="77dp"
+        android:layout_marginEnd="59dp" />
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -57,7 +63,7 @@
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     android:layout_marginHorizontal="10dp"
-                    android:src="@drawable/ic_plus_square_regular"
+                    app:srcCompat="@drawable/ic_plus_square_regular"
                     app:layout_constraintBottom_toTopOf="@id/button_create"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/textview_date" />
@@ -69,7 +75,7 @@
                     android:fontFamily="@font/courgette"
                     android:text="Tuesday,\nFebruary 2, 2021"
                     android:textColor="@android:color/white"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     app:layout_constraintLeft_toRightOf="@+id/imageview_date_icon"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +120,7 @@
                     android:fontFamily="@font/courgette"
                     android:text="Share With"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
 
                 <EditText
                     android:id="@+id/editText_share_with"
@@ -133,7 +139,7 @@
                     android:fontFamily="@font/courgette"
                     android:text="Time Specific"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
 
                 <CheckBox
                     android:id="@+id/checkbox_time_specific"
@@ -171,9 +177,9 @@
                     android:layout_gravity="right"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/courgette"
+                    android:hint="Private"
                     android:paddingHorizontal="10dp"
-                    android:hint="mm/dd/yyyy"
-                    android:inputType="date"
+                    android:text="mm/dd/yyy"
                     android:textColor="@color/dark_gray"
                     android:textColorHint="@color/dark_gray"
                     android:textSize="16dp" />
@@ -193,10 +199,9 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/courgette"
                     android:paddingHorizontal="10dp"
-                    android:hint="00:00"
-                    android:inputType="time"
+                    android:text="@string/_00_00"
                     android:textColor="@color/dark_gray"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
             </GridLayout>
 
 
@@ -207,9 +212,9 @@
                 android:layout_marginTop="100dp"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/courgette"
-                android:text="Create a List"
+                android:text="@string/create_a_list"
                 android:textAllCaps="false"
-                android:textSize="36dp"
+                android:textSize="36sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />

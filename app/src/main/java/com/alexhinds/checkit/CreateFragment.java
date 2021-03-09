@@ -1,25 +1,24 @@
 package com.alexhinds.checkit;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class CreateFragment extends Fragment {
 
@@ -30,8 +29,8 @@ public class CreateFragment extends Fragment {
     private EditText editText_date;
     private EditText editText_time;
     private Button button_create;
-    private DatabaseReference mDatabase;
 
+    private FirebaseAuth auth;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,12 +45,10 @@ public class CreateFragment extends Fragment {
         editText_date = (EditText) view.findViewById(R.id.editText_date);
         editText_time = (EditText) view.findViewById(R.id.editText_time);
         button_create = (Button) view.findViewById(R.id.button_create);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        // TODO: Error Handling (Verify Inputs)
+
         // TODO: Populate Database
-        // TODO: Navigate to CurrentListFragment if list created successfully
         button_create.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -67,32 +64,21 @@ public class CreateFragment extends Fragment {
                             System.out.println("Time Specific");
 
                             String date = editText_date.getText().toString();
-                            if (TextUtils.isEmpty(date)) {
-                                Toast.makeText(getActivity(),
-                                        "Must include date!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                System.out.println("Date: " + date);
-                            }
+                            System.out.println("Date: " + date);
 
                             String time = editText_time.getText().toString();
-                            if (TextUtils.isEmpty(time)) {
-                                Toast.makeText(getActivity(),
-                                        "Must include time!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                System.out.println("Time: " + time);
-                            }
+                            System.out.println("Time: " + time);
 
                         }
+
 
                     }
                 }
         );
 
+
         // Return View
        return view;
+
     }
 }

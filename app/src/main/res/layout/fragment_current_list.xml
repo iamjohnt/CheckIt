@@ -6,51 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/fragment_list_header_background"
-        android:orientation="vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/courgette"
-            android:paddingLeft="25dp"
-            android:paddingTop="25dp"
-            android:text="Username"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="35dp" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/courgette"
-            android:paddingLeft="25dp"
-            android:paddingTop="25dp"
-            android:text="Date"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="25dp" />
-
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/courgette"
-            android:paddingLeft="25dp"
-            android:paddingTop="10dp"
-            android:text="Category"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="25dp" />
-
-    </LinearLayout>
+    <include layout="@layout/header_current_list_fragment" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_menu"
@@ -62,17 +18,22 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/inputListItem"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/list_fragment_header"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/inputListItem"
+        style="@style/hint_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
+        android:autofillHints=""
         android:background="@drawable/background2"
+        android:hint="@string/add_new_item_to_list"
+        android:inputType="textAutoCorrect|textMultiLine|textAutoComplete"
+        android:textColorHint="@color/hint_text_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
