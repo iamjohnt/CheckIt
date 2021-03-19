@@ -4,41 +4,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <item android:title="Your Lists" app:itemTextAppearance="@color/green_text">
+    <item android:title="@string/your_lists" app:itemTextAppearance="@color/green_text">
         <menu>
             <group
                 android:id="@+id/your_lists"
-                android:checkableBehavior="single">
+                android:checkableBehavior="single"
+                android:orderInCategory="100">
                 <item
                     android:id="@+id/Example1_list"
-                    android:title="Example 1" />
+                    android:title="@string/example_1" />
                 <item
                     android:id="@+id/Example2_list"
-                    android:title="Example 2" />
+                    android:title="@string/example_2" />
             </group>
         </menu>
     </item>
 
-    <item android:title="Shared Lists">
+    <item android:title="@string/shared_lists">
         <menu>
             <group
                 android:id="@+id/shared_lists"
-                android:checkableBehavior="single">
+                android:checkableBehavior="single"
+                android:orderInCategory="1000">
                 <item
                     android:id="@+id/ExampleShared1_list"
-                    android:title="Example 1" />
+                    android:title="@string/example_1" />
                 <item
                     android:id="@+id/ExampleShared2_list"
-                    android:title="Example 2" />
+                    android:title="@string/example_2" />
             </group>
         </menu>
     </item>
 
     <item
         android:id="@+id/create_list"
-        android:title="+ New List" />
+        android:title="@string/new_list"
+        android:orderInCategory="2000"/>
     <item
         android:id="@+id/logout"
-        android:title="Logout" />
+        android:title="@string/logout"
+        android:orderInCategory="3000"/>
 
 </menu>

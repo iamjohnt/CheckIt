@@ -21,4 +21,10 @@
     <string name="create_a_list">Create a List</string>
     <string name="_00_00">00:00</string>
     <string name="add_new_item_to_list">Add new Item to List</string>
+    <string name="your_lists">Your Lists</string>
+    <string name="shared_lists">Shared Lists</string>
+    <string name="example_1">Example 1</string>
+    <string name="example_2">Example 2</string>
+    <string name="new_list">+ New List</string>
+    <string name="logout">Logout</string>
 </resources>
