@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private final String TAG = "MAIN_ACTIVITY";
     private FirebaseAuth auth;
+    private SideMenu sideMenu;
 
 
 
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.menu_view);
+
+
+        //Menu instance
+        sideMenu = new SideMenu(navigationView.getMenu());
+        sideMenu.populateMenu("list1",true);
 
         // get the menu header, display Firebase User's display name
         View menuHeader = navigationView.getHeaderView(0);
@@ -86,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 changeStatusBarColor("#000000");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
                 break;
-            case R.id.Example1_list: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
+            case 501: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
                 changeStatusBarColor("#031006");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentListFragment()).commit();
                 break;
