@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //Menu instance
-        sideMenu = new SideMenu(navigationView.getMenu());
-        sideMenu.populateMenu("list1",true);
+        sideMenu = new SideMenu(navigationView.getMenu(),auth);
+        sideMenu.populateMenu();
 
         // get the menu header, display Firebase User's display name
         View menuHeader = navigationView.getHeaderView(0);
