@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +35,7 @@ public class CreateFragment extends Fragment {
     private EditText editText_time;
     private Button button_create;
     private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Nullable
     @Override
@@ -110,7 +113,10 @@ public class CreateFragment extends Fragment {
                         // ################### POPULATE DATABASE ###################
                         // TODO: connect to owner (how to get current user ID?)
                         databaseReference = FirebaseDatabase.getInstance().getReference("test").child("lists");
-                        List newList = new List(category, dateCreated, hasDeadline, deadline, isShareable, shareWith, "");
+                        // add current user ID as owner of list
+                        String userID =  firebaseUser.getUid();
+
+                        List newList = new List(category, dateCreated, hasDeadline, deadline, isShareable, shareWith, userID);
                         databaseReference.child(category).setValue(newList);
 
                         //TODO: handle sharing (how to get user IDs from shareWith string? use this to update listMembers)

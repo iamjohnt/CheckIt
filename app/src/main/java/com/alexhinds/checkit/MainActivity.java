@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,14 +23,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 /*
 * TODO: create a custom toolbar
@@ -65,33 +60,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        //Menu instance
-        Menu menu = navigationView.getMenu();
-        sideMenu = new SideMenu(menu,auth);
+        /*
+        menu instance and creating the parameters for SideMenu class
+         */
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("test/lists");
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        Menu menu = navigationView.getMenu();
+        //creating sideMenu class to hold the menu instance to manipulate
+        sideMenu = new SideMenu(menu);
+        // add listener on the database reference, which will enable us to get the snapshot from the database
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                sideMenu.addList(snapshot,previousChildName);
-                Log.d(TAG, "onChildAdded: " + previousChildName);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                sideMenu.populateSideMenu(auth,snapshot);
+                Log.d(TAG, "onDataChange: called createSideMenu");
 
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -100,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+
+
+
+
 
 
         // get the menu header, display Firebase User's display name
@@ -137,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 changeStatusBarColor("#000000");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
                 break;
-            case 501: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
+            case R.id.your_lists: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
                 changeStatusBarColor("#031006");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentListFragment()).commit();
                 break;
