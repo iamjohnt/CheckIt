@@ -1,7 +1,5 @@
 package com.alexhinds.checkit;
 
-import java.util.Random;
-
 public class List {
 
     // ATTRIBUTES
@@ -12,12 +10,12 @@ public class List {
     private boolean isShareable;
     private String shareWith;
     private String owner;
+    private String ListID;
 
-    //TODO it will be internally handled in the app ?? what if we stooped sharing is that possible??
-    public int menuListID;
 
     // DEFAULT CONSTRUCTOR: don't remove!
-    public List() {}
+    public List() {
+    }
 
     // CONSTRUCTOR
     public List(String category, String dateCreated, boolean hasDeadline, String deadline, boolean isShareable, String shareWith, String owner) {
@@ -86,5 +84,13 @@ public class List {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getListID() {
+        return ListID;
+    }
+
+    public void setListID(String listID) {
+        ListID = listID;
     }
 }

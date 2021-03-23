@@ -9,18 +9,23 @@
         android:orderInCategory="100">
 
 
-    <item android:title="@string/your_lists"
-        app:itemTextAppearance="@color/green_text">
+        <item
+            android:id="@+id/your_lists_item"
+            android:checkable="false"
+            android:title="@string/your_lists"
+            app:itemTextAppearance="@color/green_text">
 
-    </item>
+        </item>
     </group>
     <group
         android:id="@+id/shared_lists"
         android:checkableBehavior="none"
         android:orderInCategory="1000">
-    <item android:title="@string/shared_lists"
-        app:itemTextAppearance="@color/green_text">
-    </item>
+        <item
+            android:id="@+id/shared_lists_item"
+            android:checkable="false"
+            android:title="@string/shared_lists"
+            app:itemTextAppearance="@color/green_text" />
 
     </group>
 
@@ -28,10 +33,18 @@
     <item
         android:id="@+id/create_list"
         android:title="@string/new_list"
-        android:orderInCategory="2000"/>
+        android:orderInCategory="2000" />
+
+    <group>
+
+    </group>
+    <item
+        android:id="@+id/delete_all_lists"
+        android:title="@string/delete_all_lists"
+        android:orderInCategory="2500" />
     <item
         android:id="@+id/logout"
         android:title="@string/logout"
-        android:orderInCategory="3000"/>
+        android:orderInCategory="3000" />
 
 </menu>

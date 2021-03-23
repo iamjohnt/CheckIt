@@ -1,6 +1,5 @@
 package com.alexhinds.checkit;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,8 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class CreateFragment extends Fragment {
@@ -35,7 +35,7 @@ public class CreateFragment extends Fragment {
     private EditText editText_time;
     private Button button_create;
     private DatabaseReference databaseReference;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser firebaseUser;
 
     @Nullable
     @Override
@@ -45,12 +45,14 @@ public class CreateFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create, container, false);
 
         // Link Fields
-        editText_category = (EditText) view.findViewById(R.id.editText_category);
-        editText_share_with = (EditText) view.findViewById(R.id.editText_share_with);
-        checkBox_time_specific = (CheckBox) view.findViewById(R.id.checkbox_time_specific);
-        editText_date = (EditText) view.findViewById(R.id.editText_date);
-        editText_time = (EditText) view.findViewById(R.id.editText_time);
-        button_create = (Button) view.findViewById(R.id.button_create);
+        editText_category = view.findViewById(R.id.editText_category);
+        editText_share_with = view.findViewById(R.id.editText_share_with);
+        checkBox_time_specific = view.findViewById(R.id.checkbox_time_specific);
+        editText_date = view.findViewById(R.id.editText_date);
+        editText_time = view.findViewById(R.id.editText_time);
+        button_create = view.findViewById(R.id.button_create);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // TODO: Additional Error Handling (Verify Inputs, Address Duplicates)
         button_create.setOnClickListener(
@@ -92,8 +94,7 @@ public class CreateFragment extends Fragment {
                                         "Must include date!",
                                         Toast.LENGTH_SHORT).show();
                                 return;
-                            }
-                            else {
+                            } else {
                                 deadline += deadlineDate;
                             }
 
@@ -104,8 +105,7 @@ public class CreateFragment extends Fragment {
                                         "Must include time!",
                                         Toast.LENGTH_SHORT).show();
                                 return;
-                            }
-                            else {
+                            } else {
                                 deadline = deadline + " " + deadlineTime;
                             }
                         }
@@ -114,15 +114,17 @@ public class CreateFragment extends Fragment {
                         // TODO: connect to owner (how to get current user ID?)
                         databaseReference = FirebaseDatabase.getInstance().getReference("test").child("lists");
                         // add current user ID as owner of list
-                        String userID =  firebaseUser.getUid();
+                        String userID = firebaseUser.getUid();
 
                         List newList = new List(category, dateCreated, hasDeadline, deadline, isShareable, shareWith, userID);
-                        databaseReference.child(category).setValue(newList);
+                        //set the list ID as a random UUID and then pass as the list name in the database
+                        newList.setListID(UUID.randomUUID().toString());
+                        databaseReference.child(newList.getListID()).setValue(newList);
 
                         //TODO: handle sharing (how to get user IDs from shareWith string? use this to update listMembers)
 
-                        // Go to Current List Fragment
-                        goToCurrentListFragment();
+                        // Go to Current List Fragment passing the ListID string
+                        goToCurrentListFragment(newList.getListID());
                     }
                 }
         );
@@ -132,15 +134,19 @@ public class CreateFragment extends Fragment {
     }
 
     private void clearAllLists() {
-        databaseReference.setValue(null);
     }
 
-    private void goToCurrentListFragment() {
+    // pass the list id which is the new list path to the new create fragment
+    private void goToCurrentListFragment(String listID) {
         FragmentManager fragmentManager = getFragmentManager();
+        CurrentListFragment currentListFragment = new CurrentListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("LIST", listID);
+        currentListFragment.setArguments(bundle);
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container,
-                        new CurrentListFragment()).commit();
+                        currentListFragment).commit();
     }
 
 }
