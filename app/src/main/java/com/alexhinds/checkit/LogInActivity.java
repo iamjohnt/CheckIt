@@ -45,7 +45,8 @@ public class LogInActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = auth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            auth.signOut();
+            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
         else if (currentUser == null) {

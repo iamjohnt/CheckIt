@@ -2,7 +2,10 @@ package com.alexhinds.checkit;
 
 public class List {
 
+
+
     // ATTRIBUTES
+    private String id;
     private String category;
     private String dateCreated;
     private boolean hasDeadline;
@@ -10,12 +13,14 @@ public class List {
     private boolean isShareable;
     private String shareWith;
     private String owner;
+    private java.util.List<ListItem> items;
 
     // DEFAULT CONSTRUCTOR: don't remove!
     public List() {}
 
     // CONSTRUCTOR
-    public List(String category, String dateCreated, boolean hasDeadline, String deadline, boolean isShareable, String shareWith, String owner) {
+    public List(String listId, String category, String dateCreated, boolean hasDeadline, String deadline, boolean isShareable, String shareWith, String owner) {
+        this.id = listId;
         this.category = category;
         this.dateCreated = dateCreated;
         this.hasDeadline = hasDeadline;
@@ -27,6 +32,21 @@ public class List {
 
 
     // GETTERS & SETTERS
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public java.util.List<ListItem> getItems() {
+        return items;
+    }
+
+    public void setItems(java.util.List<ListItem> items) {
+        this.items = items;
+    }
     public String getCategory() {
         return category;
     }

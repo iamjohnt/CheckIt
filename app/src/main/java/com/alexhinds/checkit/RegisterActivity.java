@@ -89,12 +89,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    /** createAccount                   creates Firebase Application User and user entry
-     *                                  in the realtime database
+    /** createAccount()
+     *
+     * creates Firebase Application User and user entry in the realtime database
      *
      * @param userEmail email used to create account with Firebase Authentication
      * @param username username used for displayName in the app
      * @param password password used to create account with Firebase Authentication
+     *
+     * @return <code>void</code>
      */
 
     private void createAccount(String userEmail, String username, String password) {
@@ -140,12 +143,15 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // ADDING USER TO REALTIME DB
 
-                    User user = new User(userName, userPassword); // set up entry for user in db
-                    // write object to database, using UID from signing up as the unique/primary key - it handles conversion to JSON
-                    database.child(currUser.getUid()).setValue(user)
+                    String userId = currUser.getUid();
+                    User user = new User(userId, email, userName, userPassword); // set up entry for user in db
 
-                            .addOnSuccessListener(aVoid -> Log.d(TAG, "createAccount::onSuccess: User added to DB"))
-                            .addOnFailureListener(e -> Log.d(TAG, "createAccount::onFailure: User NOT added to DB"));
+                    // write object to database, using UID from signing up as the root - it handles conversion to JSON
+                    DatabaseReference userRef = database.child(userId); // root node for user; could also be email
+                    userRef.setValue(user)
+
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "createAccount::userEntry::setValue::onSuccess:User added to DB"))
+                        .addOnFailureListener(e -> Log.d(TAG, "createAccount::userEntry::setValue::onFailure: User NOT added to DB" + e.getMessage()));
 
                     // go to login activity
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
