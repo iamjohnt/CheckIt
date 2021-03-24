@@ -1,6 +1,5 @@
 package com.alexhinds.checkit;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -47,7 +45,7 @@ public class CreateFragment extends Fragment {
         checkBox_time_specific = (CheckBox) view.findViewById(R.id.checkbox_time_specific);
         editText_date = (EditText) view.findViewById(R.id.editText_date);
         editText_time = (EditText) view.findViewById(R.id.editText_time);
-        button_create = (Button) view.findViewById(R.id.button_create);
+        button_create = (Button) view.findViewById(R.id.button_create_frag);
 
         // TODO: Additional Error Handling (Verify Inputs, Address Duplicates)
         button_create.setOnClickListener(
@@ -136,5 +134,6 @@ public class CreateFragment extends Fragment {
                 .replace(R.id.fragment_container,
                         new CurrentListFragment()).commit();
     }
+
 
 }

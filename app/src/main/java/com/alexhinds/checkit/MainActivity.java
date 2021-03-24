@@ -6,6 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,9 +19,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -32,11 +38,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String TAG = "MAIN_ACTIVITY";
     private FirebaseAuth auth;
 
+    private boolean isNightTheme = false;
+
+    //fields for the radio button for dark/light themes.
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    TextView textView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         // firebase authentication
@@ -63,10 +76,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState(); // rotates the hamburger icon as the menu opens and closes
 
+
         // TODO: this requires an if statement (this is opened only if no lists exist for the user, else open the last list viewed by the user
         //       (if list exists also need to include the following: navigationView.setCheckedItem(R.id.<list-id>))
         // TODO: Also read about savedInstanceState (if user rotates the device or anything else that recreates the activity)
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
+
+
 
     }
 
@@ -95,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, LogInActivity.class));
                 finish();
                 Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.light_theme:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case R.id.dark_theme:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

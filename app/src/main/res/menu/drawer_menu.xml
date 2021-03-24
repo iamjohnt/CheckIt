@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
+
+
     <item android:title="Your Lists" app:itemTextAppearance="@color/green_text">
         <menu>
             <group
@@ -34,11 +36,66 @@
         </menu>
     </item>
 
+
+
+
+
+    <item android:title="Preferences" app:itemTextAppearance="@color/green_text">
+        <menu>
+            <group
+                android:id="@+id/your_preferences"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/light_theme"
+                    android:title="Light" />
+                <item
+                    android:id="@+id/dark_theme"
+                    android:title="Dark" />
+
+            </group>
+
+
+
+<!--            <RadioGroup-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radio_dark"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Dark"-->
+<!--                    android:onClick="checkButton"-->
+<!--                    android:checked="true"-->
+<!--                    />-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radio_light"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Light"-->
+<!--                    android:onClick="checkButton"/>-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radio_automatic"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Automatic"-->
+<!--                    android:onClick="checkButton"/>-->
+<!--            </RadioGroup>-->
+
+        </menu>
+    </item>
+
+
+
+
+
+
     <item
         android:id="@+id/create_list"
         android:title="+ New List" />
     <item
         android:id="@+id/logout"
         android:title="Logout" />
+
+
 
 </menu>
