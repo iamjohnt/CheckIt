@@ -1,7 +1,6 @@
 package com.alexhinds.checkit;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,8 @@ public class CurrentListFragment extends Fragment {
 
         //testing to catch the listPath from the main activity
 
-        String listName = getArguments().getString("LIST");
-        Log.d("List Fragment", " list fragment path to list: " + listName);
+//        String listName = getArguments().getString("LIST");
+//        Log.d("List Fragment", " list fragment path to list: " + listName);
 
 
         return inflater.inflate(R.layout.fragment_current_list, container, false);

@@ -64,6 +64,7 @@ public class NavController {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.d(TAG, "onChildChanged: " + snapshot.getValue().toString() + "previous child " + previousChildName);
+
             }
 
             @Override
@@ -78,8 +79,11 @@ public class NavController {
                         }
                     }
                     if (menuItemIDKey < Integer.MAX_VALUE) {
+                        Log.d(TAG, "onChildRemoved: menuItemIdKey on removal of child" + menuItemIDKey);
+
                         sMenu.removeItem(menuItemIDKey);
                         MainActivity.menuItemHashMap.remove(menuItemIDKey);
+
                     }
                 }
             }

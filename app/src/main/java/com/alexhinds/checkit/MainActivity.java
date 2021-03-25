@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -143,12 +144,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void deleteAllLists() {
         // traverse the map, use the value to delete the list in the database
+        Map<String, Object> childUpdates = new HashMap<>();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("test");
         for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
-            DatabaseReference refrenceToOneList = databaseReferenceToLists.child(entry.getValue());
-            refrenceToOneList.removeValue();
-            Log.d("Delete Method", "deleteAllListElements: " + refrenceToOneList);
+
+            childUpdates.put("lists/" + entry.getValue(), null); // list metadata
+            childUpdates.put("listMembers/" + entry.getValue(), null); // list members
+            childUpdates.put("userLists/" + auth.getCurrentUser().getUid() + "/" + entry.getValue(), null);
+            childUpdates.put("listData/" + entry.getValue(), null);
+
+            rootRef.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: ALL CHILDREN DELETED");
+                }
+            });
+
 
         }
+
+
+        //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
+        // changing db structure slightly - moving userlists into its own structure; true - owner, false - member with access
+
 
     }
 
