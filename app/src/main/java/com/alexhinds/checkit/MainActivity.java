@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,18 +19,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /*
-* TODO: create a custom toolbar
-* */
+ * TODO: create a custom toolbar
+ * */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private DrawerLayout drawer;
+    // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
+    public static HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private final String TAG = "MAIN_ACTIVITY";
+    private DrawerLayout drawer;
     private FirebaseAuth auth;
-
+    private NavController navController;
+    private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
 
 
     @Override
@@ -50,6 +57,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.menu_view);
+
+
+
+
+
+        /*
+        menu instance passed to a new NavController class
+         */
+        navController = new NavController(navigationView.getMenu());
+
 
         // get the menu header, display Firebase User's display name
         View menuHeader = navigationView.getHeaderView(0);
@@ -81,32 +98,76 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // switch between fragments (this will control which fragment is placed inside the fragment container (in the activity_main.xml
-        switch  (item.getItemId()) {
-            case R.id.create_list:
-                changeStatusBarColor("#000000");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
-                break;
-            case R.id.Example1_list: //***TODO: THIS MUST BE HANDLED BY A VARIABLE AND BE HANDLED DYNAMICALLY BECAUSE LISTS ARE ADDED AND DELETED DYNAMICALLY BY THE USER
-                changeStatusBarColor("#031006");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentListFragment()).commit();
-                break;
-            case R.id.logout: // TODO: I may need to exit using authentication and ensuring that user can't use the back arrow after logging out (read about this)
-                auth.signOut();
-                startActivity(new Intent(MainActivity.this, LogInActivity.class));
-                finish();
-                Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
-                break;
+
+
+        int itemMenuId = item.getItemId();
+
+        if (itemMenuId == R.id.create_list) {
+            changeStatusBarColor("#000000");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
+
+        } else if (itemMenuId == R.id.logout) {
+            auth.signOut();
+            startActivity(new Intent(MainActivity.this, LogInActivity.class));
+            finish();
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+        } else if (itemMenuId == R.id.delete_all_lists) {
+            Log.d(TAG, "onNavigationItemSelected: delete all list");
+            deleteAllLists();
+            changeStatusBarColor("#000000");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
+
+        } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        } else {
+            changeStatusBarColor("#031006");
+            CurrentListFragment currentListFragment = new CurrentListFragment();
+            Bundle data = new Bundle();
+            data.putString("LIST", menuItemHashMap.get(item.getItemId())); //TODO path to list replaced with value of the menuItemHashMap
+            currentListFragment.setArguments(data);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentListFragment).commit();
+
         }
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void changeStatusBarColor(String color){
+    public void changeStatusBarColor(String color) {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Color.parseColor(color));
         }
+    }
+
+    public void deleteAllLists() {
+        // traverse the map, use the value to delete the list in the database
+        Map<String, Object> childUpdates = new HashMap<>();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("test");
+        for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
+
+            childUpdates.put("lists/" + entry.getValue(), null); // list metadata
+            childUpdates.put("listMembers/" + entry.getValue(), null); // list members
+            childUpdates.put("userLists/" + auth.getCurrentUser().getUid() + "/" + entry.getValue(), null);
+            childUpdates.put("listData/" + entry.getValue(), null);
+
+            rootRef.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: ALL CHILDREN DELETED");
+                }
+            });
+
+
+        }
+
+
+        //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
+        // changing db structure slightly - moving userlists into its own structure; true - owner, false - member with access
+
+
     }
 
 
