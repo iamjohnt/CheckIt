@@ -75,16 +75,11 @@ public class NavController {
                     for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
                         if (entry.getValue().equals(snapshot.getKey())) {
                             menuItemIDKey = entry.getKey();
+                            sMenu.removeItem(menuItemIDKey);
                             break;
                         }
                     }
-                    if (menuItemIDKey < Integer.MAX_VALUE) {
-                        Log.d(TAG, "onChildRemoved: menuItemIdKey on removal of child" + menuItemIDKey);
-
-                        sMenu.removeItem(menuItemIDKey);
-                        MainActivity.menuItemHashMap.remove(menuItemIDKey);
-
-                    }
+                    MainActivity.menuItemHashMap.remove(menuItemIDKey);
                 }
             }
 
