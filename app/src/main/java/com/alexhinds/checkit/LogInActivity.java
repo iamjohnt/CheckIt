@@ -42,7 +42,7 @@ public class LogInActivity extends AppCompatActivity {
         if (currentUser != null) {
             auth.signOut();
             //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
+            //finish();
         }
         else if (currentUser == null) {
             Toast.makeText(getApplicationContext(),
