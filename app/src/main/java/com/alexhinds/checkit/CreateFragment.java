@@ -140,10 +140,8 @@ public class CreateFragment extends Fragment {
                         listData.push();
                         String listItemKey = listData.getKey();
                         java.util.List<ListItem> items = new LinkedList<>();
-                        ListItem test = new ListItem("test", userId, true);
-                        ListItem test2 = new ListItem("test", userId, true);
+                        ListItem test = new ListItem("test", userId, false);
                         items.add(test);
-                        items.add(test2);
 
                     /* ############################# PUSHING UPDATES TO DB ############################
 
