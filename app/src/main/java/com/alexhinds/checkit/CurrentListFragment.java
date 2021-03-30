@@ -107,23 +107,27 @@ public class CurrentListFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                snapshot.getValue(); // returns an object of all of the ListItem objects in the list --- need to decouple this
-                Log.d("ITEMS IN LIST", snapshot.getValue().toString());
+                if (snapshot.getValue() == null) { // no items in list yet
 
-                // iterate through the items in the list
-                for (DataSnapshot databaseListItem : snapshot.getChildren()) {
+                } else {
+                    snapshot.getValue(); // returns an object of all of the ListItem objects in the list --- need to decouple this
+                    Log.d("ITEMS IN LIST", snapshot.getValue().toString());
+
+                    // iterate through the items in the list
+                    for (DataSnapshot databaseListItem : snapshot.getChildren()) {
 
 //                    ListItem newItem = new ListItem(databaseListItem.child("data").getValue().toString(), databaseListItem.child("addedBy").getValue().toString(), (boolean) databaseListItem.child("markedDone").getValue());
-                    ListItem newItem = databaseListItem.getValue(ListItem.class);
+                        ListItem newItem = databaseListItem.getValue(ListItem.class);
 
 
-                    // TODO: add ListItem objects from database to an arraylist ----> HOW DO I CONVERT SNAPSHOT TO ListItem TYPE ???
+                        // TODO: add ListItem objects from database to an arraylist ----> HOW DO I CONVERT SNAPSHOT TO ListItem TYPE ???
 
-                    itemsArray.add(newItem);
+                        itemsArray.add(newItem);
 
-                    // insert the item name into the recyclerView
+                        // insert the item name into the recyclerView
+                    }
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
             }
 
             @Override
