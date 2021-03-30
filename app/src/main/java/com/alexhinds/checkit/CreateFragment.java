@@ -133,15 +133,7 @@ public class CreateFragment extends Fragment {
                         Log.d("TEST", "onClick: " + listId);
                         List newList = new List(listId, category, dateCreated, hasDeadline, deadline, isShareable, shareWith, userId);
 
-                    /*
-                       LIST DATA CODE - TODO TO BE REMOVED LATER - also need to remove it from childUpdates
-                     */
-                        DatabaseReference listData = rootRef.child("listData/" + listId);
-                        listData.push();
-                        String listItemKey = listData.getKey();
-                        java.util.List<ListItem> items = new LinkedList<>();
-                        ListItem test = new ListItem("test", userId, false);
-                        items.add(test);
+
 
                     /* ############################# PUSHING UPDATES TO DB ############################
 
@@ -150,7 +142,6 @@ public class CreateFragment extends Fragment {
                         2) listMembers/$listId/$userid (add user to created Lists' members)
                         3) userLists/$userId/$listId (inverted listMembers - stores lists for each user - to easily grab user lists)
 
-                       TODO currently also updates ListData with test user items @ listData/userId/listId - need to remove
 
                         using updateChildren() allows these grouped updates to be done atomically - all succeed, or all fail
                      */
@@ -161,7 +152,6 @@ public class CreateFragment extends Fragment {
                         //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
                         // changing db structure slightly - moving userlists into its own structure; true - owner, false - member with access
                         childUpdates.put("userLists/" + userId + "/" + listId, true);
-                        childUpdates.put("listData/" + listId, items);
 
                         rootRef.updateChildren(childUpdates)
                                 .addOnSuccessListener(command -> {
@@ -217,7 +207,7 @@ public class CreateFragment extends Fragment {
     }
 
     private void goToCurrentListFragment(String listId) {
-        CurrentListFragment currListFrag = new CurrentListFragment();
+        final CurrentListFragment currListFrag = new CurrentListFragment();
 
         Bundle data = new Bundle();
         data.putString("LIST", listId);
