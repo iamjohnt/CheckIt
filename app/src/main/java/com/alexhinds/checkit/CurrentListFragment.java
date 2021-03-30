@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,8 @@ public class CurrentListFragment extends Fragment {
     private EditText inputListItem;
     private Button addItem;
     private ArrayList<ListItem> itemsArray;
+    private FirebaseAuth auth;
+    private String currUserId;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter; // the bridge between the array list and the recycler view
@@ -48,6 +51,8 @@ public class CurrentListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        auth = FirebaseAuth.getInstance();
+        currUserId = auth.getCurrentUser().getUid();
 
         // get View
         View view = inflater.inflate(R.layout.fragment_current_list, container, false);
@@ -62,8 +67,11 @@ public class CurrentListFragment extends Fragment {
         addItem = view.findViewById(R.id.addItem);
 
         // get items of list from database
+
+
+        String listID = getArguments().get("LIST").toString();
+        getItemListFromDatabase(listID);
         Log.d("Getting items...", "successful");
-        getItemListFromDatabase();
         // insert items into recyclerview
         mRecyclerView = view.findViewById(R.id.recycler_menu);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -92,8 +100,8 @@ public class CurrentListFragment extends Fragment {
         return view;
     }
 
-    private void getItemListFromDatabase() {
-        DatabaseReference listDataRef = rootRef.child("listData/" + "-MWz93HpHQfXzlGi8f4p"); // TODO: change hardcoded listID with a variaable
+    private void getItemListFromDatabase(String listId) {
+        DatabaseReference listDataRef = rootRef.child("listData/" + listId);
 
         listDataRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,7 +135,7 @@ public class CurrentListFragment extends Fragment {
     }
 
 
-    private void addItemToDatabase(String item) {
+    private void addItemToDatabase(String item, String listId) {
 
         // TODO:
         //      Step 1: get current list UID
@@ -141,10 +149,13 @@ public class CurrentListFragment extends Fragment {
         ///////////////////////////////////////////////
 
         // get current list reference
-        DatabaseReference listDataRef = rootRef.child("listData/" + "-MWz93HpHQfXzlGi8f4p"); // TODO: change hardcoded listID with a variaable
+       final DatabaseReference listDataRef = rootRef.child("listData/" + listId);
+       final DatabaseReference listRef = rootRef.child("lists/" + listId);
 
-        // create a ListItem object, add it to the itemsArray ArrayList and push the ListItem object to firebase
-        ListItem itemObject = new ListItem(item, "YMAC3TRNJPVECXYhwmq87UCrSQk2", false); // TODO: change hardcoded listID with a variaable
+
+
+        //        // create a ListItemobject, add it to the itemsArray ArrayList and push the ListItem object to firebase
+        ListItem itemObject = new ListItem(item, currUserId, false);
 
         for(int i = 0; i < itemsArray.size(); i++) {
             // TODO: first I need to pull (read) all of the items in the list, then create a if statement:

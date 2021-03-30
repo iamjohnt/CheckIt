@@ -200,8 +200,9 @@ public class CreateFragment extends Fragment {
 
                                     //TODO: handle sharing (how to get user IDs from shareWith string? use this to update listMembers)
 
+
                                     // Go to Current List Fragment
-                                    goToCurrentListFragment();
+                                    goToCurrentListFragment(listId);
                                 });
                     }
                 }
@@ -215,12 +216,18 @@ public class CreateFragment extends Fragment {
         rootRef.setValue(null);
     }
 
-    private void goToCurrentListFragment() {
+    private void goToCurrentListFragment(String listId) {
+        CurrentListFragment currListFrag = new CurrentListFragment();
+
+        Bundle data = new Bundle();
+        data.putString("LIST", listId);
+        currListFrag.setArguments(data);
+
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container,
-                        new CurrentListFragment()).commit();
+                       currListFrag).commit();
     }
 
 }
