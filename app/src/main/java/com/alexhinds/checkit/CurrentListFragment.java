@@ -115,6 +115,7 @@ public class CurrentListFragment extends Fragment {
 
                     // insert the item name into the recyclerView
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
