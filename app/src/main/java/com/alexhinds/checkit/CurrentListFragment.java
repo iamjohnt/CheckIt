@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,25 +60,28 @@ public class CurrentListFragment extends Fragment {
 
         inputListItem = view.findViewById(R.id.inputListItem);
         addItem = view.findViewById(R.id.addItem);
+
+        // get items of list from database
+        Log.d("Getting items...", "successful");
+        getItemListFromDatabase();
+        // insert items into recyclerview
+        mRecyclerView = view.findViewById(R.id.recycler_menu);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new ListAdapter(itemsArray);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: get the current list name (UID if exists)
                 //      then use the name to populate the listData
 
-                Log.d("input message", inputListItem.getText().toString());
 //                getItemListFromDatabase();
 //                addItemToDatabase(inputListItem.getText().toString());
 
                 // testing
                 addItemFromLocalArrayList(inputListItem.getText().toString());
-
-                // insert items into recyclerview
-                mRecyclerView = view.findViewById(R.id.recycler_menu);
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mAdapter = new ListAdapter(itemsArray);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
 
 
                 inputListItem.getText().clear();
@@ -99,11 +103,15 @@ public class CurrentListFragment extends Fragment {
                 Log.d("ITEMS IN LIST", snapshot.getValue().toString());
 
                 // iterate through the items in the list
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Log.d("THIS IS AN ITEM IN LIST", ds.child("data").getValue().toString());
+                for (DataSnapshot databaseListItem : snapshot.getChildren()) {
+
+//                    ListItem newItem = new ListItem(databaseListItem.child("data").getValue().toString(), databaseListItem.child("addedBy").getValue().toString(), (boolean) databaseListItem.child("markedDone").getValue());
+                    ListItem newItem = databaseListItem.getValue(ListItem.class);
+
 
                     // TODO: add ListItem objects from database to an arraylist ----> HOW DO I CONVERT SNAPSHOT TO ListItem TYPE ???
-//                    itemsArray.add(ds);
+
+                    itemsArray.add(newItem);
 
                     // insert the item name into the recyclerView
                 }
