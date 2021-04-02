@@ -45,6 +45,12 @@ public class LoginTest {
 //    }
 
     @Test
+    public void test_login_title_visible() {
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+        onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void test_login_userEmail_textField_visible() {
         ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
         onView(withId(R.id.login_user_email)).check(matches(isDisplayed()));
@@ -60,6 +66,37 @@ public class LoginTest {
     public void test_login_button_visible() {
         ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
         onView(withId(R.id.login_button)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void test_login_newUser_visible() {
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+        onView(withId(R.id.new_user)).check(matches(isDisplayed()));
+    }
+
+
+    @Test
+    public void test_login_images_visible() {
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+        onView(withId(R.id.tasks_solid)).check(matches(isDisplayed()));
+        onView(withId(R.id.check_double_solid)).check(matches(isDisplayed()));
+        onView(withId(R.id.check)).check(matches(isDisplayed()));
+        onView(withId(R.id.check_it_text)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void test_login_newUser() {
+        // Start at Login
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+
+        // Click on New User
+        onView(withId(R.id.new_user)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(1000);
+
+        // On Register Screen
+        onView(withId(R.id.registerTitle)).check(matches(isDisplayed()));
     }
 
     @Test
