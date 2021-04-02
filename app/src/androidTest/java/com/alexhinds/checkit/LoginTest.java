@@ -133,6 +133,40 @@ public class LoginTest {
         onView(withId(R.id.textview_welcome)).check(doesNotExist());
     }
 
+    @Test
+    public void test_login_invalidPassword_tooShort() {
+        // Start at Login
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+
+        // Login with Valid Test Username / Password
+        onView(withId(R.id.login_user_email)).perform(typeText("test123@test.com"));
+        onView(withId(R.id.login_password)).perform(typeText("test")).perform(closeSoftKeyboard());
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(2000);
+
+        // On Create Screen
+        onView(withId(R.id.textview_welcome)).check(doesNotExist());
+    }
+    
+    @Test
+    public void test_login_invalidPassword_incorrect() {
+        // Start at Login
+        ActivityScenario<LogInActivity> test = ActivityScenario.launch(LogInActivity.class);
+
+        // Login with Valid Test Username / Password
+        onView(withId(R.id.login_user_email)).perform(typeText("test123@test.com"));
+        onView(withId(R.id.login_password)).perform(typeText("test12345")).perform(closeSoftKeyboard());
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(2000);
+
+        // On Create Screen
+        onView(withId(R.id.textview_welcome)).check(doesNotExist());
+    }
+
 
 }
 
