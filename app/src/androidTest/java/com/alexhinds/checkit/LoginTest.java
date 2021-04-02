@@ -76,7 +76,6 @@ public class LoginTest {
         onView(withId(R.id.new_user)).check(matches(isDisplayed()));
     }
 
-
     @Test
     public void test_login_images_visible() {
         onView(withId(R.id.tasks_solid)).check(matches(isDisplayed()));
@@ -113,7 +112,7 @@ public class LoginTest {
 
     @Test
     public void test_login_invalidUsername() {
-        // Login with Valid Test Username / Password
+        // Login with Invalid Username
         onView(withId(R.id.login_user_email)).perform(typeText("test"));
         onView(withId(R.id.login_password)).perform(typeText("test123")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
@@ -121,13 +120,13 @@ public class LoginTest {
         // Wait Long Enough for Activity / Fragment to Launch
         SystemClock.sleep(2000);
 
-        // On Create Screen
+        // Not On Create Screen
         onView(withId(R.id.textview_welcome)).check(doesNotExist());
     }
 
     @Test
     public void test_login_invalidPassword_tooShort() {
-        // Login with Valid Test Username / Password
+        // Login with Invalid Password (too short)
         onView(withId(R.id.login_user_email)).perform(typeText("test123@test.com"));
         onView(withId(R.id.login_password)).perform(typeText("test")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
@@ -135,13 +134,13 @@ public class LoginTest {
         // Wait Long Enough for Activity / Fragment to Launch
         SystemClock.sleep(2000);
 
-        // On Create Screen
+        // Not On Create Screen
         onView(withId(R.id.textview_welcome)).check(doesNotExist());
     }
 
     @Test
     public void test_login_invalidPassword_incorrect() {
-        // Login with Valid Test Username / Password
+        // Login with Invalid Password (incorrect)
         onView(withId(R.id.login_user_email)).perform(typeText("test123@test.com"));
         onView(withId(R.id.login_password)).perform(typeText("test12345")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
@@ -149,7 +148,45 @@ public class LoginTest {
         // Wait Long Enough for Activity / Fragment to Launch
         SystemClock.sleep(2000);
 
-        // On Create Screen
+        // Not On Create Screen
+        onView(withId(R.id.textview_welcome)).check(doesNotExist());
+    }
+
+    @Test
+    public void test_login_noInput() {
+        // Login with No Username / Password
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(2000);
+
+        // Not On Create Screen
+        onView(withId(R.id.textview_welcome)).check(doesNotExist());
+    }
+
+    @Test
+    public void test_login_noUsername() {
+        // Login with No Username
+        onView(withId(R.id.login_password)).perform(typeText("test123")).perform(closeSoftKeyboard());
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(2000);
+
+        // Not On Create Screen
+        onView(withId(R.id.textview_welcome)).check(doesNotExist());
+    }
+
+    @Test
+    public void test_login_noPassword() {
+        // Login with No Password
+        onView(withId(R.id.login_user_email)).perform(typeText("test123@test.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Wait Long Enough for Activity / Fragment to Launch
+        SystemClock.sleep(2000);
+
+        // Not On Create Screen
         onView(withId(R.id.textview_welcome)).check(doesNotExist());
     }
 
