@@ -25,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "REGISTER_ACTIVITY"; // for logging
     // Define Resources
+    private TextView registerTitle;
     private EditText registerUserEmail;
     private EditText registerUserName;
     private EditText registerPassword;
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("test/users"); // test db
         //Get Resources
+        registerTitle = (TextView) findViewById(R.id.registerTitle);
         registerUserEmail = (EditText) findViewById(R.id.register_user_email);
         registerUserName = (EditText) findViewById(R.id.register_user_name);
         registerPassword = (EditText) findViewById(R.id.register_password);
