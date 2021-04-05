@@ -3,42 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
+    <group
+        android:id="@+id/your_lists"
+        android:checkableBehavior="none"
+        android:orderInCategory="100">
 
 
+        <item
+            android:id="@+id/your_lists_item"
+            android:checkable="false"
+            android:title="@string/your_lists"
+            app:itemTextAppearance="@color/green_text">
 
-    <item android:title="Your Lists" app:itemTextAppearance="@color/green_text">
-        <menu>
-            <group
-                android:id="@+id/your_lists"
-                android:checkableBehavior="single">
-                <item
-                    android:id="@+id/Example1_list"
-                    android:title="Example 1" />
-                <item
-                    android:id="@+id/Example2_list"
-                    android:title="Example 2" />
-            </group>
-        </menu>
-    </item>
+        </item>
+    </group>
+    <group
+        android:id="@+id/shared_lists"
+        android:checkableBehavior="none"
+        android:orderInCategory="1000">
+        <item
+            android:id="@+id/shared_lists_item"
+            android:checkable="false"
+            android:title="@string/shared_lists"
+            app:itemTextAppearance="@color/green_text" />
 
-    <item android:title="Shared Lists">
-        <menu>
-            <group
-                android:id="@+id/shared_lists"
-                android:checkableBehavior="single">
-                <item
-                    android:id="@+id/ExampleShared1_list"
-                    android:title="Example 1" />
-                <item
-                    android:id="@+id/ExampleShared2_list"
-                    android:title="Example 2" />
-            </group>
-        </menu>
-    </item>
+    </group>
 
 
-
-
+    <item
+        android:id="@+id/create_list"
+        android:title="@string/new_list"
+        android:orderInCategory="2000" />
 
     <item android:title="Preferences" app:itemTextAppearance="@color/green_text">
         <menu>
@@ -53,49 +48,15 @@
                     android:title="Dark" />
 
             </group>
-
-
-
-<!--            <RadioGroup-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
-<!--                <RadioButton-->
-<!--                    android:id="@+id/radio_dark"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Dark"-->
-<!--                    android:onClick="checkButton"-->
-<!--                    android:checked="true"-->
-<!--                    />-->
-<!--                <RadioButton-->
-<!--                    android:id="@+id/radio_light"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Light"-->
-<!--                    android:onClick="checkButton"/>-->
-<!--                <RadioButton-->
-<!--                    android:id="@+id/radio_automatic"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Automatic"-->
-<!--                    android:onClick="checkButton"/>-->
-<!--            </RadioGroup>-->
-
         </menu>
     </item>
-
-
-
-
-
-
     <item
-        android:id="@+id/create_list"
-        android:title="+ New List" />
+        android:id="@+id/delete_all_lists"
+        android:title="@string/delete_all_lists"
+        android:orderInCategory="2500" />
     <item
         android:id="@+id/logout"
-        android:title="Logout" />
-
-
+        android:title="@string/logout"
+        android:orderInCategory="3000" />
 
 </menu>

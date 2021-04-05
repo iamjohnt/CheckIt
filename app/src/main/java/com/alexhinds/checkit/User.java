@@ -1,18 +1,25 @@
 package com.alexhinds.checkit;
 
+import java.util.Map;
+
 public class User {
+    public String id; // value is user's generated UID from Firebase auth;
     public String email;
     public String username;
     public String password;
+    public Map<String, Boolean> ownedLists;
 
 
     public User() { // necessary to have empty
 
     }
 
-    public User(String username, String password) {
+    public User(String uid, String email, String username, String password) {
+        this.id = uid;
+        this.email = email;
         this.username = username;
         this.password = password;
+        this.ownedLists = null;
 
     }
 
