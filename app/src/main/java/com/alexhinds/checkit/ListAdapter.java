@@ -1,13 +1,18 @@
 package com.alexhinds.checkit;
 
 import android.content.ClipData;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -44,13 +49,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ItemViewHolder
         // get information from the currentItem to pass it into the view holder (layout)
         holder.mCheckBox.setText(currentItem.getData());
 
-        // TODO/////////////////////////////////////////////////////////////////////////////////// Check if this if statement creates any Errors when user is checking and unchecking an item**********************************
-        // if item is set to checked in the database, then set the UI to be checked
-        if(currentItem.isMarkedDone()) {
-            holder.mCheckBox.setChecked(true);
-        } else {
-            holder.mCheckBox.setChecked(false);
-        }
+        // set the checkbox to the isMarkedDone() value
+        holder.mCheckBox.setChecked(currentItem.isMarkedDone());
+
+        // set the isMarkedDone() value to the value of the checkbox
+        holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                currentItem.setMarkedDone(isChecked);
+                Log.d("items Array", "current item " + currentItem);
+            }
+        });
     }
 
     @Override

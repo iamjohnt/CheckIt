@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /*
 * TODO: check how to expand recyclerview in a constrain Layout all the way to the bottom view
@@ -37,6 +41,7 @@ public class CurrentListFragment extends Fragment {
     private DatabaseReference rootRef;
     private EditText inputListItem;
     private Button addItem;
+    private CheckBox itemCheckBox;
     private ArrayList<ListItem> itemsArray;
     private FirebaseAuth auth;
     private String currUserId;
@@ -65,10 +70,9 @@ public class CurrentListFragment extends Fragment {
 
         inputListItem = view.findViewById(R.id.inputListItem);
         addItem = view.findViewById(R.id.addItem);
+        itemCheckBox = view.findViewById(R.id.itemCheckBox);
 
         // get items of list from database
-
-
         String listID = getArguments().get("LIST").toString();
         getItemListFromDatabase(listID);
         Log.d("Getting items...", "successful");
@@ -82,22 +86,28 @@ public class CurrentListFragment extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: get the current list name (UID if exists)
-                //      then use the name to populate the listData
+                if(inputListItem.isFocused()) {
+                    // add item to database (listData) when user clicks on the "Add" button
+                    addItemToDatabase(inputListItem.getText().toString(), listID);
 
-//                getItemListFromDatabase();
-//                addItemToDatabase(inputListItem.getText().toString());
-
-                // testing
-                addItemFromLocalArrayList(inputListItem.getText().toString());
-
-
-                inputListItem.getText().clear();
-
+                    // clear the text box to allow user to input new item
+                    inputListItem.getText().clear();
+                }
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // When the fragment is stopped (not in the user's view) the database is updated with the new itemsArray attributes (if any have changed)
+        String listID = getArguments().get("LIST").toString();
+
+        rootRef.child("listData/" + listID).setValue(itemsArray);
+
     }
 
     private void getItemListFromDatabase(String listId) {
@@ -107,6 +117,10 @@ public class CurrentListFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                // clear the itemsArray displayed in the UI
+                itemsArray.clear();
+
+                // get current snapshot of database and fill the items into the itemsArray
                 if (snapshot.getValue() == null) { // no items in list yet
 
                 } else {
@@ -119,13 +133,9 @@ public class CurrentListFragment extends Fragment {
 //                    ListItem newItem = new ListItem(databaseListItem.child("data").getValue().toString(), databaseListItem.child("addedBy").getValue().toString(), (boolean) databaseListItem.child("markedDone").getValue());
                         ListItem newItem = databaseListItem.getValue(ListItem.class);
 
-
-                        // TODO: add ListItem objects from database to an arraylist ----> HOW DO I CONVERT SNAPSHOT TO ListItem TYPE ???
-
                         itemsArray.add(newItem);
-
-                        // insert the item name into the recyclerView
                     }
+                    // update the recyclerView
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -141,38 +151,22 @@ public class CurrentListFragment extends Fragment {
 
     private void addItemToDatabase(String item, String listId) {
 
-        // TODO:
-        //      Step 1: get current list UID
-        //      Step 2: find current list UID in listData
-        //      Step 3: change the values of item 0 (also do: delete the auto created item1)
-        //      Step 4: add another ListItem object for every item added
-        //      Note: step 3 and 4 will be an if else statement (if data attribute in the database is equal to test change value, else add a new ListItem object)
-//        mDatabase = FirebaseDatabase.getInstance().getReference("test/listData");
-
-//        mDatabase.child("testingThisShite").child(inputListItem.getText().toString()).setValue(inputListItem.getText().toString());
-        ///////////////////////////////////////////////
-
         // get current list reference
-       final DatabaseReference listDataRef = rootRef.child("listData/" + listId);
-       final DatabaseReference listRef = rootRef.child("lists/" + listId);
+        final DatabaseReference listDataRef = rootRef.child("listData/" + listId);
+        final DatabaseReference listRef = rootRef.child("lists/" + listId);
 
-
-
-        //        // create a ListItemobject, add it to the itemsArray ArrayList and push the ListItem object to firebase
+        // create a ListItem object, and push it to firebase
         ListItem itemObject = new ListItem(item, currUserId, false);
 
-        for(int i = 0; i < itemsArray.size(); i++) {
-            // TODO: first I need to pull (read) all of the items in the list, then create a if statement:
-            //       if (item exists in list) update attributes
-            //       else (add item to end of list)
-            listDataRef.child(String.valueOf(i)).setValue(itemObject);
-
-        }
+        // add item to database -- get the location of the new item using the length of the current itemsArray
+        listDataRef.child(String.valueOf(itemsArray.size())).setValue(itemObject);
     }
 
-    private void addItemFromLocalArrayList(String item) {
-        ListItem newItem = new ListItem(item, "Erez", false);
 
-        itemsArray.add(newItem);
-    }
+//    // for testing purposes only
+//    private void addItemFromLocalArrayList(String item) {
+//        ListItem newItem = new ListItem(item, currUserId, false);
+//
+//        itemsArray.add(newItem);
+//    }
 }

@@ -35,7 +35,7 @@
         android:inputType="textAutoCorrect|textMultiLine|textAutoComplete"
         android:textColorHint="@color/hint_text_grey"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/addItem"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
