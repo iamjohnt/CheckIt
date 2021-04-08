@@ -35,18 +35,18 @@
         android:title="@string/new_list"
         android:orderInCategory="2000" />
 
-    <item android:title="Preferences" app:itemTextAppearance="@color/green_text"
+    <item android:title="@string/preferences" app:itemTextAppearance="@color/green_text"
         android:orderInCategory="2200">
         <menu>
             <group
                 android:id="@+id/your_preferences"
-                android:checkableBehavior="single">
+                android:checkableBehavior="none">
                 <item
                     android:id="@+id/light_theme"
-                    android:title="Light" />
+                    android:title="@string/light" />
                 <item
                     android:id="@+id/dark_theme"
-                    android:title="Dark" />
+                    android:title="@string/dark" />
 
             </group>
         </menu>

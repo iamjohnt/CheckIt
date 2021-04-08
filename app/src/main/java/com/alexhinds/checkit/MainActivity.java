@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private NavController navController;
     private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
-    private boolean isThemeChanged = false;
+
 
 
     @Override
@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // close navigation menu when back button is presses (if menu is open) rather than leaving the activity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
-            finish();
         }
     }
 
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int itemMenuId = item.getItemId();
 
         if (itemMenuId == R.id.create_list) {
-            changeStatusBarColor("#000000");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
         } else if (itemMenuId == R.id.logout) {
             auth.signOut();
@@ -119,22 +116,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemMenuId == R.id.delete_all_lists) {
             Log.d(TAG, "onNavigationItemSelected: delete all list");
             deleteAllLists();
-            changeStatusBarColor("#000000");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
 
         } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
             drawer.closeDrawer(GravityCompat.START);
             return true;
         }else if (itemMenuId == R.id.light_theme) {
-            isThemeChanged = true;
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         }else if (itemMenuId == R.id.dark_theme) {
-            isThemeChanged = true;
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         } else {
-            changeStatusBarColor("#031006");
             CurrentListFragment currentListFragment = new CurrentListFragment();
             Bundle data = new Bundle();
             data.putString("LIST", menuItemHashMap.get(item.getItemId())); //TODO path to list replaced with value of the menuItemHashMap
@@ -147,13 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeStatusBarColor(String color) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.parseColor(color));
-        }
-    }
 
     public void deleteAllLists() {
         // traverse the map, use the value to delete the list in the database
@@ -182,9 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         super.onStop();
-        if(!isThemeChanged)
-            auth.signOut();
-        isThemeChanged = false;
     }
 
 }
