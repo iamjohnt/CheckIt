@@ -22,6 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View menuHeader = navigationView.getHeaderView(0);
         TextView username = menuHeader.findViewById(R.id.username);
         username.setText(auth.getCurrentUser().getDisplayName());
+        TextView headerDate = menuHeader.findViewById(R.id.date);
+        headerDate.setText(getDateString());
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -188,9 +194,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    private String getDateString() {
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
+        return dateFormat.format(calendar.getTime());
+
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
     }
 
 }
+
