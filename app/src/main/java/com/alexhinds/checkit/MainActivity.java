@@ -1,14 +1,11 @@
 package com.alexhinds.checkit;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +30,7 @@ import java.util.Map;
  * */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
-    public static HashMap<Integer, String> menuItemHashMap = new HashMap<>();
+    public  HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private final String TAG = "MAIN_ACTIVITY";
     private DrawerLayout drawer;
     private FirebaseAuth auth;
@@ -44,11 +38,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // firebase authentication
         auth = FirebaseAuth.getInstance();
@@ -66,10 +60,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
         /*
         menu instance passed to a new NavController class
          */
-        navController = new NavController(navigationView.getMenu());
+        navController = new NavController(navigationView.getMenu(),menuItemHashMap);
 
 
         // get the menu header, display Firebase User's display name
@@ -105,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         int itemMenuId = item.getItemId();
+        int currentMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        Log.d(TAG, "onNavigationItemSelected: current mode" + currentMode);
 
         if (itemMenuId == R.id.create_list) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
@@ -121,14 +118,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
             drawer.closeDrawer(GravityCompat.START);
             return true;
-        }else if (itemMenuId == R.id.light_theme) {
+        }
 
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
-        }else if (itemMenuId == R.id.dark_theme) {
 
+
+
+
+        else if (itemMenuId == R.id.light_theme) {
             drawer.closeDrawer(GravityCompat.START);
-            return true;
+            if (currentMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
+                return refresgNavController();
+                }
+        } else if (itemMenuId == R.id.dark_theme) {
+            drawer.closeDrawer(GravityCompat.START);
+            if (currentMode == Configuration.UI_MODE_NIGHT_NO) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                Toast.makeText(this, "Dark Theme", Toast.LENGTH_SHORT).show();
+                return refresgNavController();
+            }
         } else {
             CurrentListFragment currentListFragment = new CurrentListFragment();
             Bundle data = new Bundle();
@@ -147,23 +156,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // traverse the map, use the value to delete the list in the database
         Map<String, Object> childUpdates = new HashMap<>();
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("test");
-        for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
+        for (Map.Entry<Integer, String> entry : this.menuItemHashMap.entrySet()) {
 
             childUpdates.put("lists/" + entry.getValue(), null); // list metadata
             childUpdates.put("listMembers/" + entry.getValue(), null); // list members
             childUpdates.put("userLists/" + auth.getCurrentUser().getUid() + "/" + entry.getValue(), null);
             childUpdates.put("listData/" + entry.getValue(), null);
-
-            rootRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: ALL CHILDREN DELETED"));
-
-
         }
+        rootRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: ALL CHILDREN DELETED"));
+        refresgNavController();
+
+
+
+
 
 
         //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
         // changing db structure slightly - moving userlists into its own structure; true - owner, false - member with access
 
 
+    }
+
+
+    public boolean refresgNavController() {
+        NavigationView navigationView = findViewById(R.id.menu_view);
+        if (navigationView.getMenu() != null) {
+            navController = new NavController(navigationView.getMenu(),menuItemHashMap);
+            return true;
+        }
+        return false;
     }
 
 
