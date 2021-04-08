@@ -15,9 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private NavController navController;
     private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
+    private boolean isThemeChanged = false;
 
 
     @Override
@@ -92,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // close navigation menu when back button is presses (if menu is open) rather than leaving the activity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }else{
+            finish();
         }
     }
 
@@ -105,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (itemMenuId == R.id.create_list) {
             changeStatusBarColor("#000000");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
-
         } else if (itemMenuId == R.id.logout) {
             auth.signOut();
             startActivity(new Intent(MainActivity.this, LogInActivity.class));
@@ -119,6 +124,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
             drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }else if (itemMenuId == R.id.light_theme) {
+            isThemeChanged = true;
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            return true;
+        }else if (itemMenuId == R.id.dark_theme) {
+            isThemeChanged = true;
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             return true;
         } else {
             changeStatusBarColor("#031006");
@@ -153,12 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             childUpdates.put("userLists/" + auth.getCurrentUser().getUid() + "/" + entry.getValue(), null);
             childUpdates.put("listData/" + entry.getValue(), null);
 
-            rootRef.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "onSuccess: ALL CHILDREN DELETED");
-                }
-            });
+            rootRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: ALL CHILDREN DELETED"));
 
 
         }
@@ -174,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         super.onStop();
-        auth.signOut();
+        if(!isThemeChanged)
+            auth.signOut();
+        isThemeChanged = false;
     }
 
 }

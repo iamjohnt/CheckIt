@@ -35,9 +35,21 @@
         android:title="@string/new_list"
         android:orderInCategory="2000" />
 
-    <group>
+    <item android:title="Preferences" app:itemTextAppearance="@color/green_text">
+        <menu>
+            <group
+                android:id="@+id/your_preferences"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/light_theme"
+                    android:title="Light" />
+                <item
+                    android:id="@+id/dark_theme"
+                    android:title="Dark" />
 
-    </group>
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/delete_all_lists"
         android:title="@string/delete_all_lists"

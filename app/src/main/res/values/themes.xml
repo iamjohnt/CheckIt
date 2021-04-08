@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.CheckIt" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.CheckIt" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/hint_text_grey</item>
         <item name="colorPrimaryVariant">@color/primary</item>
@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
+    </style>a
 
 
 

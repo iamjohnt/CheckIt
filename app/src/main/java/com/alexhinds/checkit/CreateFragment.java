@@ -59,7 +59,7 @@ public class CreateFragment extends Fragment {
         checkBox_time_specific = (CheckBox) view.findViewById(R.id.checkbox_time_specific);
         editText_date = (EditText) view.findViewById(R.id.editText_date);
         editText_time = (EditText) view.findViewById(R.id.editText_time);
-        button_create = (Button) view.findViewById(R.id.button_create);
+        button_create = (Button) view.findViewById(R.id.button_create_frag);
 
         textView_welcome.setText("Welcome " + auth.getCurrentUser().getDisplayName());
 
