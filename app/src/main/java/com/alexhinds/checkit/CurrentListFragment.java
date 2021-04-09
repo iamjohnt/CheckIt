@@ -7,15 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,17 +27,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /*
-* TODO: check how to expand recyclerview in a constrain Layout all the way to the bottom view
-*
-*
-* */
+ * TODO: check how to expand recyclerview in a constrain Layout all the way to the bottom view
+ *
+ *
+ * */
 
 public class CurrentListFragment extends Fragment {
 
@@ -51,6 +51,13 @@ public class CurrentListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager; // responsible for aligning the single items in the list
 
 
+    // header private data fields
+    private TextView userName;
+    private TextView categoryName;
+    private TextView privateHeader;
+    private TextView finishBy;
+    private Task<DataSnapshot> currentList;
+
 
     @Nullable
     @Override
@@ -61,6 +68,7 @@ public class CurrentListFragment extends Fragment {
 
         // get View
         View view = inflater.inflate(R.layout.fragment_current_list, container, false);
+
 
         // initialize rootRef
         rootRef = FirebaseDatabase.getInstance().getReference("test");
@@ -86,7 +94,7 @@ public class CurrentListFragment extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inputListItem.isFocused()) {
+                if (inputListItem.isFocused()) {
                     // add item to database (listData) when user clicks on the "Add" button
                     addItemToDatabase(inputListItem.getText().toString(), listID);
 
@@ -96,7 +104,62 @@ public class CurrentListFragment extends Fragment {
             }
         });
 
+
+        //header population
+        // initialize header variables
+        userName = view.findViewById(R.id.username);
+        categoryName = view.findViewById(R.id.category);
+        privateHeader = view.findViewById(R.id.private_header);
+        finishBy = view.findViewById(R.id.finish_by_toolbar);
+        TextView todaysDate = view.findViewById(R.id.date);
+        //delete list bin
+        ImageView deleteList = view.findViewById(R.id.delete_list);
+
+        // setting header variables
+        todaysDate.setText(MainActivity.getDateString());
+        userName.setText(auth.getCurrentUser().getDisplayName());
+        // getting a list snap shot and setting list specific header fields
+        currentList = rootRef.child("lists").child(listID).get().addOnSuccessListener(task -> {
+            List list = currentList.getResult().getValue(List.class);
+            setCategory(list.getCategory());
+            setPrivateheader(list.isShareable());
+            setFinishBy(list.isHasDeadline(), list.getDeadline());
+
+        }).addOnFailureListener(e -> Log.d("Current List Frag", "onFailure: Database List Snapshot Error Reading"));
+
+
+        // on click listener for the delete list bin
+        deleteList.setOnClickListener(v -> {
+            if (deleteList(listID, currUserId, rootRef)) {
+                goToCreateListFragment();
+            }
+        });
+
+
         return view;
+    }
+
+    //helper to set finish by field
+    private void setFinishBy(boolean hasDeadline, String deadline) {
+        if (hasDeadline) {
+            finishBy.setText(R.string.due + deadline);
+        } else {
+            finishBy.setText(R.string.no_due_date);
+        }
+    }
+
+    // helper to set private or shared header field
+    private void setPrivateheader(boolean shareable) {
+        if (shareable) {
+            privateHeader.setText(R.string.shared);
+        } else {
+            privateHeader.setText(R.string.privatehint);
+        }
+    }
+
+    //helper to set category field
+    private void setCategory(String category) {
+        categoryName.setText(category);
     }
 
     @Override
@@ -163,6 +226,40 @@ public class CurrentListFragment extends Fragment {
     }
 
 
+    // delete current list and return to create list fragment
+    // update the database with created null map with keys listId, ownerId, database root ref
+    private boolean deleteList(String listID, String userId, DatabaseReference rootRef) {
+
+        // create a new map then push keys to it
+        Map<String, Object> childUpdateMap = new HashMap<>();
+        childUpdateMap.put("lists/" + listID, null); // list metadata
+        childUpdateMap.put("listMembers/" + listID, null); // list members
+        childUpdateMap.put("userLists/" + userId + "/" + listID, null);
+        childUpdateMap.put("listData/" + listID, null);
+
+
+        // update the database with created null map
+        rootRef.updateChildren(childUpdateMap).addOnSuccessListener(aVoid -> {
+            System.out.println(aVoid);
+            Log.d("DataBaseHandler", "onSuccess: deleted");
+            childUpdateMap.clear();
+        });
+
+
+        return true;
+    }
+
+    //helper to go to create fragment
+    private void goToCreateListFragment() {
+        final CreateFragment createFragment = new CreateFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container,
+                        createFragment).commit();
+    }
+
+
 //    // for testing purposes only
 //    private void addItemFromLocalArrayList(String item) {
 //        ListItem newItem = new ListItem(item, currUserId, false);
@@ -170,3 +267,4 @@ public class CurrentListFragment extends Fragment {
 //        itemsArray.add(newItem);
 //    }
 }
+

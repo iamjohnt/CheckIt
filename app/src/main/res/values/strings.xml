@@ -18,8 +18,6 @@
     <string name="header_date">Tuesday, February 2, 2021</string>
     <string name="header_private_field">private</string>
     <string name="welcome_username">Welcome Username</string>
-    <string name="create_a_list">Create a List</string>
-    <string name="_00_00">00:00</string>
     <string name="add_new_item_to_list">Add new Item to List</string>
     <string name="your_lists">Your Lists</string>
     <string name="shared_lists">Shared Lists</string>
@@ -28,4 +26,25 @@
     <string name="new_list">+ New List</string>
     <string name="logout">Logout</string>
     <string name="delete_all_lists">DELETE ALL LISTS</string>
+    <string name="welcome">Welcome</string>
+    <string name="tuesday_nfebruary_2_2021">Tuesday,\nFebruary 2, 2021</string>
+    <string name="category">Category</string>
+    <string name="_00_00">00:00</string>
+    <string name="create_a_list">Create a List</string>
+    <string name="time">Time</string>
+    <string name="mm_dd_yyyy">mm/dd/yyyy</string>
+    <string name="date">Date</string>
+    <string name="preferences">Preferences</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="delete_list">delete_list</string>
+    <string name="add">ADD</string>
+    <string name="time_specific">Time Specific</string>
+    <string name="share_with">Share With</string>
+    <string name="name">Name</string>
+    <string name="privatehint">Private</string>
+    <string name="due">\"due: \"</string>
+    <string name="no_due_date">No Due Date</string>
+    <string name="shared">Shared</string>
+
 </resources>

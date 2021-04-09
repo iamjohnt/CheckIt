@@ -1,14 +1,11 @@
 package com.alexhinds.checkit;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +16,15 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,20 +32,27 @@ import java.util.Map;
  * TODO: create a custom toolbar
  * */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
-    public static HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private final String TAG = "MAIN_ACTIVITY";
+    private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
+    // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
+    public HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private DrawerLayout drawer;
     private FirebaseAuth auth;
     private NavController navController;
-    private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
-    private boolean isThemeChanged = false;
 
+    public static String getDateString() {
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
+        return dateFormat.format(calendar.getTime());
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // firebase authentication
         auth = FirebaseAuth.getInstance();
@@ -66,16 +70,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
         /*
         menu instance passed to a new NavController class
          */
-        navController = new NavController(navigationView.getMenu());
+        navController = new NavController(navigationView.getMenu(), menuItemHashMap);
 
 
         // get the menu header, display Firebase User's display name
         View menuHeader = navigationView.getHeaderView(0);
         TextView username = menuHeader.findViewById(R.id.username);
         username.setText(auth.getCurrentUser().getDisplayName());
+        TextView headerDate = menuHeader.findViewById(R.id.date);
+        headerDate.setText(getDateString());
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -96,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // close navigation menu when back button is presses (if menu is open) rather than leaving the activity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
-            finish();
         }
     }
 
@@ -107,9 +112,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         int itemMenuId = item.getItemId();
+        int currentMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        Log.d(TAG, "onNavigationItemSelected: current mode" + currentMode);
 
         if (itemMenuId == R.id.create_list) {
-            changeStatusBarColor("#000000");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
         } else if (itemMenuId == R.id.logout) {
             auth.signOut();
@@ -119,22 +125,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemMenuId == R.id.delete_all_lists) {
             Log.d(TAG, "onNavigationItemSelected: delete all list");
             deleteAllLists();
-            changeStatusBarColor("#000000");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateFragment()).commit();
 
         } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
             drawer.closeDrawer(GravityCompat.START);
             return true;
-        }else if (itemMenuId == R.id.light_theme) {
-            isThemeChanged = true;
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            return true;
-        }else if (itemMenuId == R.id.dark_theme) {
-            isThemeChanged = true;
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            return true;
+        } else if (itemMenuId == R.id.light_theme) {
+            drawer.closeDrawer(GravityCompat.START);
+            if (currentMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
+                return refresgNavController();
+            }
+        } else if (itemMenuId == R.id.dark_theme) {
+            drawer.closeDrawer(GravityCompat.START);
+            if (currentMode == Configuration.UI_MODE_NIGHT_NO) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                Toast.makeText(this, "Dark Theme", Toast.LENGTH_SHORT).show();
+                return refresgNavController();
+            }
         } else {
-            changeStatusBarColor("#031006");
             CurrentListFragment currentListFragment = new CurrentListFragment();
             Bundle data = new Bundle();
             data.putString("LIST", menuItemHashMap.get(item.getItemId())); //TODO path to list replaced with value of the menuItemHashMap
@@ -147,29 +157,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeStatusBarColor(String color) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.parseColor(color));
-        }
-    }
-
     public void deleteAllLists() {
         // traverse the map, use the value to delete the list in the database
         Map<String, Object> childUpdates = new HashMap<>();
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("test");
-        for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
+        for (Map.Entry<Integer, String> entry : this.menuItemHashMap.entrySet()) {
 
             childUpdates.put("lists/" + entry.getValue(), null); // list metadata
             childUpdates.put("listMembers/" + entry.getValue(), null); // list members
             childUpdates.put("userLists/" + auth.getCurrentUser().getUid() + "/" + entry.getValue(), null);
             childUpdates.put("listData/" + entry.getValue(), null);
-
-            rootRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: ALL CHILDREN DELETED"));
-
-
         }
+        rootRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: ALL CHILDREN DELETED"));
+        refresgNavController();
 
 
         //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
@@ -178,13 +178,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public boolean refresgNavController() {
+        NavigationView navigationView = findViewById(R.id.menu_view);
+        if (navigationView.getMenu() != null) {
+            navController = new NavController(navigationView.getMenu(), menuItemHashMap);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(!isThemeChanged)
-            auth.signOut();
-        isThemeChanged = false;
     }
 
 }
+

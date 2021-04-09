@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class NavController {
@@ -25,9 +26,9 @@ public class NavController {
     private final int yourListsID = R.id.your_lists;
     private final int sharedListID = R.id.shared_lists;
     private final String TAG = "side menu population";
+    private final String userUID;
     // instances of objects to be manipulated
     public Menu sMenu;
-    private final String userUID;
     private int genIDYourLists = 1000;
     private int genIDSharedLists = 1001;
 
@@ -36,7 +37,7 @@ public class NavController {
      * Constructor of sideMenu, it will also capture the user UUID
      * @param sMenu Menu which will be manipulated
      */
-    public NavController(Menu sMenu) {
+    public NavController(Menu sMenu, HashMap<Integer, String> menuItemHashMap) {
         this.sMenu = sMenu;
         //get the user uid to check if the list belong to the user
         this.userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -50,10 +51,10 @@ public class NavController {
                     List list = snapshot.getValue(List.class);
                     if (!list.isShareable()) {
                         MenuItem menuItem = sMenu.add(yourListsID, --genIDYourLists, 200, list.getCategory());
-                        MainActivity.menuItemHashMap.put(menuItem.getItemId(), snapshot.getKey());
+                        menuItemHashMap.put(menuItem.getItemId(), snapshot.getKey());
                     } else {
                         MenuItem menuItem = sMenu.add(sharedListID, ++genIDSharedLists, 1200, list.getCategory());
-                        MainActivity.menuItemHashMap.put(menuItem.getItemId(), snapshot.getKey());
+                        menuItemHashMap.put(menuItem.getItemId(), snapshot.getKey());
                     }
                 } else {
                     //TODO if not owner but is shared with owner
@@ -70,16 +71,16 @@ public class NavController {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "onChildRemoved: " + snapshot.getKey());
-                if (MainActivity.menuItemHashMap.containsValue(snapshot.getKey())) {
+                if (menuItemHashMap.containsValue(snapshot.getKey())) {
                     Integer menuItemIDKey = Integer.MAX_VALUE;
-                    for (Map.Entry<Integer, String> entry : MainActivity.menuItemHashMap.entrySet()) {
+                    for (Map.Entry<Integer, String> entry : menuItemHashMap.entrySet()) {
                         if (entry.getValue().equals(snapshot.getKey())) {
                             menuItemIDKey = entry.getKey();
                             sMenu.removeItem(menuItemIDKey);
                             break;
                         }
                     }
-                    MainActivity.menuItemHashMap.remove(menuItemIDKey);
+                    menuItemHashMap.remove(menuItemIDKey);
                 }
             }
 

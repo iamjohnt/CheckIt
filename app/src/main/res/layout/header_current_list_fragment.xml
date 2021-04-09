@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_fragment_header"
     android:layout_width="match_parent"
@@ -82,5 +82,26 @@
         android:layout_marginTop="5dp"
         android:text="@string/finish_by_default"
         android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/delete_list"
+        android:layout_width="70dp"
+        android:layout_height="57dp"
+        android:layout_below="@+id/private_header"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="335dp"
+        android:layout_marginLeft="335dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:contentDescription="@string/delete_list"
+        android:focusable="true"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </RelativeLayout>
