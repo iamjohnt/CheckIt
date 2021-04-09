@@ -43,5 +43,8 @@
     <string name="share_with">Share With</string>
     <string name="name">Name</string>
     <string name="privatehint">Private</string>
+    <string name="due">\"due: \"</string>
+    <string name="no_due_date">No Due Date</string>
+    <string name="shared">Shared</string>
 
 </resources>

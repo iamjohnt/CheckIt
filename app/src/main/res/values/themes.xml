@@ -13,10 +13,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item> <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
         <item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>
     </style>
-
 
 
     <style name="hint_text" parent="TextAppearance.AppCompat">

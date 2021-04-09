@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <group
         android:id="@+id/your_lists"
@@ -32,11 +32,13 @@
 
     <item
         android:id="@+id/create_list"
-        android:title="@string/new_list"
-        android:orderInCategory="2000" />
+        android:orderInCategory="2000"
+        android:title="@string/new_list" />
 
-    <item android:title="@string/preferences" app:itemTextAppearance="@color/green_text"
-        android:orderInCategory="2200">
+    <item
+        android:orderInCategory="2200"
+        android:title="@string/preferences"
+        app:itemTextAppearance="@color/green_text">
         <menu>
             <group
                 android:id="@+id/your_preferences"
@@ -53,12 +55,12 @@
     </item>
     <item
         android:id="@+id/delete_all_lists"
-        android:title="@string/delete_all_lists"
-        android:orderInCategory="2500" />
+        android:orderInCategory="2500"
+        android:title="@string/delete_all_lists" />
     <item
         android:id="@+id/logout"
-        android:title="@string/logout"
-        android:orderInCategory="3000" />
+        android:orderInCategory="3000"
+        android:title="@string/logout" />
 
 
 </menu>

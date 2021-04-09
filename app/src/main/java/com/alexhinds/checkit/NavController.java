@@ -26,9 +26,9 @@ public class NavController {
     private final int yourListsID = R.id.your_lists;
     private final int sharedListID = R.id.shared_lists;
     private final String TAG = "side menu population";
+    private final String userUID;
     // instances of objects to be manipulated
     public Menu sMenu;
-    private final String userUID;
     private int genIDYourLists = 1000;
     private int genIDSharedLists = 1001;
 
@@ -37,7 +37,7 @@ public class NavController {
      * Constructor of sideMenu, it will also capture the user UUID
      * @param sMenu Menu which will be manipulated
      */
-    public NavController(Menu sMenu, HashMap<Integer,String> menuItemHashMap) {
+    public NavController(Menu sMenu, HashMap<Integer, String> menuItemHashMap) {
         this.sMenu = sMenu;
         //get the user uid to check if the list belong to the user
         this.userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();

@@ -217,7 +217,7 @@ public class CreateFragment extends Fragment {
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container,
-                       currListFrag).commit();
+                        currListFrag).commit();
     }
 
 }

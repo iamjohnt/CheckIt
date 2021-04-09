@@ -25,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +32,21 @@ import java.util.Map;
  * TODO: create a custom toolbar
  * */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
-    public  HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private final String TAG = "MAIN_ACTIVITY";
+    private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
+    // the static map that will hold the menuItemID as key and the string is the listID also the name of the list on the database
+    public HashMap<Integer, String> menuItemHashMap = new HashMap<>();
     private DrawerLayout drawer;
     private FirebaseAuth auth;
     private NavController navController;
-    private final DatabaseReference databaseReferenceToLists = FirebaseDatabase.getInstance().getReference("test/lists");
 
+    public static String getDateString() {
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
+        return dateFormat.format(calendar.getTime());
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /*
         menu instance passed to a new NavController class
          */
-        navController = new NavController(navigationView.getMenu(),menuItemHashMap);
+        navController = new NavController(navigationView.getMenu(), menuItemHashMap);
 
 
         // get the menu header, display Firebase User's display name
@@ -124,19 +130,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemMenuId == R.id.your_lists_item || itemMenuId == R.id.shared_lists_item) {
             drawer.closeDrawer(GravityCompat.START);
             return true;
-        }
-
-
-
-
-
-        else if (itemMenuId == R.id.light_theme) {
+        } else if (itemMenuId == R.id.light_theme) {
             drawer.closeDrawer(GravityCompat.START);
             if (currentMode == Configuration.UI_MODE_NIGHT_YES) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
                 return refresgNavController();
-                }
+            }
         } else if (itemMenuId == R.id.dark_theme) {
             drawer.closeDrawer(GravityCompat.START);
             if (currentMode == Configuration.UI_MODE_NIGHT_NO) {
@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
     public void deleteAllLists() {
         // traverse the map, use the value to delete the list in the database
         Map<String, Object> childUpdates = new HashMap<>();
@@ -173,33 +172,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         refresgNavController();
 
 
-
-
-
-
         //                        childUpdates.put("users/"+userId+"/ownedLists/"+listId, true); // updating ownedLists in User entry
         // changing db structure slightly - moving userlists into its own structure; true - owner, false - member with access
 
 
     }
 
-
     public boolean refresgNavController() {
         NavigationView navigationView = findViewById(R.id.menu_view);
         if (navigationView.getMenu() != null) {
-            navController = new NavController(navigationView.getMenu(),menuItemHashMap);
+            navController = new NavController(navigationView.getMenu(), menuItemHashMap);
             return true;
         }
         return false;
-    }
-
-
-    private String getDateString() {
-
-        Calendar calendar = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
-        return dateFormat.format(calendar.getTime());
-
     }
 
     @Override
