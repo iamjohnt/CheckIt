@@ -17,7 +17,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class RegisterActivityTest {
@@ -45,7 +44,7 @@ public class RegisterActivityTest {
 //        }
 //    }
 
-        /* Visibility Tests */
+        // UI Visibility Tests
         @Test
         public void test_registerActivity_title_visible() {
             onView(withId(R.id.registerTitle)).check(matches(isDisplayed()));
@@ -84,7 +83,7 @@ public class RegisterActivityTest {
         }
 
 
-
+        // Functional Tests
         @Test
         public void test_registerActivity_alreadyRegistered() {
             // Click on Log In
@@ -97,8 +96,10 @@ public class RegisterActivityTest {
             onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
         }
 
+
+
         @Test
-        public void test_registerActivity_validUserInfo() {
+        public void test_registerActivity_invalidEmail_alreadyInUse() { // Can't test all valid info because once you use an email, clicking will register it (each test would need a different email)
             // Register with Valid: Email / Username / Password
             onView(withId(R.id.register_user_email)).perform(typeText("registerActivityTest@test.com"));
             onView(withId(R.id.register_user_name)).perform(typeText("testing"));
