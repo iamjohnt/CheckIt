@@ -24,6 +24,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
     // Define Resources
+    private TextView loginTitle;
     private EditText loginUserEmail;
     private EditText loginPassword;
     private Button loginButton;
@@ -65,6 +66,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
         // Get Resources
+        loginTitle = (TextView) findViewById(R.id.loginTitle);
         loginUserEmail = (EditText) findViewById(R.id.login_user_email);
         loginPassword = (EditText) findViewById(R.id.login_password);
         loginButton = (Button) findViewById(R.id.login_button);
