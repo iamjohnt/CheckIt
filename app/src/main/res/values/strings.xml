@@ -37,4 +37,11 @@
     <string name="preferences">Preferences</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="delete_list">delete_list</string>
+    <string name="add">ADD</string>
+    <string name="time_specific">Time Specific</string>
+    <string name="share_with">Share With</string>
+    <string name="name">Name</string>
+    <string name="privatehint">Private</string>
+
 </resources>

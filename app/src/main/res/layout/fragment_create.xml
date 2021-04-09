@@ -101,48 +101,49 @@
 
                     android:id="@+id/editText_category"
                     android:layout_width="100dp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:background="@drawable/border_gray_foursides"
                     android:fontFamily="@font/courgette"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/dark_gray" />
 
                 <TextView
                     android:id="@+id/button_share_with"
-                    android:layout_gravity="left"
+                    android:layout_gravity="start"
                     android:fontFamily="@font/courgette"
-                    android:text="Share With"
+                    android:text="@string/share_with"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
 
                 <EditText
                     android:id="@+id/editText_share_with"
                     android:layout_width="100dp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:background="@drawable/border_gray_foursides"
                     android:fontFamily="@font/courgette"
-                    android:hint="Private"
+                    android:hint="@string/privatehint"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/dark_gray" />
 
                 <TextView
                     android:id="@+id/textview_time_specific"
-                    android:layout_gravity="left"
+                    android:layout_gravity="start"
                     android:fontFamily="@font/courgette"
-                    android:text="Time Specific"
+                    android:text="@string/time_specific"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
 
                 <CheckBox
                     android:id="@+id/checkbox_time_specific"
                     android:layout_width="24dp"
                     android:layout_height="23dp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:buttonTint="@color/green_text"
-                    android:checked="true" />
+                    android:checked="true"
+                    tools:targetApi="lollipop" />
 
 
             </GridLayout>
@@ -169,7 +170,7 @@
                 <EditText
                     android:id="@+id/editText_date"
                     android:layout_width="110dp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/courgette"
                     android:paddingHorizontal="10dp"
@@ -211,6 +212,7 @@
                 android:fontFamily="@font/courgette"
                 android:text="@string/create_a_list"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="36sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
