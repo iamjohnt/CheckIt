@@ -141,10 +141,14 @@ public class CurrentListFragment extends Fragment {
 
     //helper to set finish by field
     private void setFinishBy(boolean hasDeadline, String deadline) {
+        StringBuilder str = new StringBuilder();
         if (hasDeadline) {
-            finishBy.setText(R.string.due + deadline);
+            str.append("due by :");
+            str.append(deadline);
+            finishBy.setText(str);
         } else {
-            finishBy.setText(R.string.no_due_date);
+            str.append("No Due date");
+            finishBy.setText(str);
         }
     }
 
