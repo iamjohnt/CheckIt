@@ -1,4 +1,4 @@
-package com.alexhinds.checkit;
+package com.se.checkit;
 
 
 import android.os.Bundle;
@@ -60,6 +60,13 @@ public class CreateFragment extends Fragment {
         editText_date = (EditText) view.findViewById(R.id.editText_date);
         editText_time = (EditText) view.findViewById(R.id.editText_time);
         button_create = (Button) view.findViewById(R.id.button_create_frag);
+
+        button_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         textView_welcome.setText("Welcome " + auth.getCurrentUser().getDisplayName());
 

@@ -1,5 +1,5 @@
 
-package com.alexhinds.checkit;
+package com.se.checkit;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CheckIt">
-        <activity android:name=".CreateActivity"></activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name="com.se.checkit.CreateActivity"></activity>
+        <activity android:name="com.se.checkit.RegisterActivity" />
 <!--  LAUNCHER is the entrypoint of app, change it back to LogInActivity , uncomment the bellow two line and remove the third line     -->
 <!--        <activity android:name=".LogInActivity"/>-->
 <!--        <activity android:name=".MainActivity">-->
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LogInActivity">
+        <activity android:name="com.se.checkit.MainActivity" />
+        <activity android:name="com.se.checkit.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

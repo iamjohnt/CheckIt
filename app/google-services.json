@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:45462866594:android:903760c496134db996e5fb",
         "android_client_info": {
-          "package_name": "com.alexhinds.checkit"
+          "package_name": "com.se.checkit"
         }
       },
       "oauth_client": [
@@ -22,7 +22,7 @@
 
           "client_type": 1,
           "android_info": {
-            "package_name": "com.alexhinds.checkit",
+            "package_name": "com.se.checkit",
             "certificate_hash": "e96ccee861d0113807575ff12290a8f8a74b0dd5"
           }
         },

@@ -1,4 +1,4 @@
-package com.alexhinds.checkit;
+package com.se.checkit;
 
 import java.util.Date;
 

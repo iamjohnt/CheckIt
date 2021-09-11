@@ -1,4 +1,4 @@
-package com.alexhinds.checkit;
+package com.se.checkit;
 
 import android.os.Bundle;
 import android.util.Log;
